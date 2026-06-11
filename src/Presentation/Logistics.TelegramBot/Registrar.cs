@@ -1,3 +1,4 @@
+using System.Linq;
 using Logistics.TelegramBot.Authentication;
 using Logistics.TelegramBot.Commands;
 using Logistics.TelegramBot.Handlers;
@@ -30,8 +31,16 @@ public static class Registrar
         services.Configure<TelegramBotOptions>(section);
 
         var botOptions = section.Get<TelegramBotOptions>();
-        if (string.IsNullOrEmpty(botOptions?.BotToken))
+        // Skip if missing OR an unreplaced placeholder (e.g. "<Telegram bot token>").
+        // Real tokens look like "<digits>:<hash>"; an invalid value would make
+        // TelegramBotClient throw and crash app startup. Still register a no-op
+        // notifier so the many handlers that depend on ITelegramNotificationService
+        // can be resolved.
+        if (string.IsNullOrEmpty(botOptions?.BotToken) || !IsValidBotToken(botOptions.BotToken))
+        {
+            services.AddSingleton<ITelegramNotificationService, NoOpTelegramNotificationService>();
             return services;
+        }
 
         // Telegram bot client (singleton - thread-safe)
         services.AddSingleton<ITelegramBotClient>(new TelegramBotClient(botOptions.BotToken));
@@ -67,6 +76,13 @@ public static class Registrar
         }
 
         return services;
+    }
+
+    /// <summary>Real Telegram bot tokens are "&lt;botId&gt;:&lt;hash&gt;" with a numeric bot id.</summary>
+    private static bool IsValidBotToken(string token)
+    {
+        var colon = token.IndexOf(':');
+        return colon > 0 && token[..colon].All(char.IsDigit);
     }
 
     public static WebApplication MapTelegramWebhook(this WebApplication app)

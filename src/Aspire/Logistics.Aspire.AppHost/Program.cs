@@ -6,7 +6,7 @@ var isProdEnv = builder.ExecutionContext.IsPublishMode;
 var isDevEnv = !isProdEnv;
 
 builder.AddDockerComposeEnvironment("compose")
-    .WithDashboard(dashboard => dashboard.WithHostPort(7100));
+    .WithDashboard(dashboard => dashboard.WithHostPort(1319));
 
 IResourceBuilder<IResourceWithConnectionString> masterDb;
 IResourceBuilder<IResourceWithConnectionString> usTenantDb;
@@ -53,9 +53,9 @@ var logisticsApi = builder.AddProject<Logistics_API>("api")
     .WithReference(masterDb, "MasterDatabase")
     .WithReference(usTenantDb, "UsTenantDatabase")
     .WithEnvironment("IdentityServer__Authority",
-        isProdEnv ? "http://identity-server:7001" : "http://localhost:7001")
+        isProdEnv ? "http://identity-server:1321" : "http://localhost:1321")
     .WithEnvironment("IdentityServer__ExternalAuthority",
-        isProdEnv ? builder.GetConfigValue("IdentityServer:ExternalAuthority") : "http://localhost:7001")
+        isProdEnv ? builder.GetConfigValue("IdentityServer:ExternalAuthority") : "http://localhost:1321")
     .WithEnvironment("IdentityServer__RequireHttpsMetadata", "false")
     .WithEnvironment("Impersonation__MasterPassword", builder.GetConfigValue("Impersonation:MasterPassword"))
     .WithEnvironment("Resend__ApiKey", builder.GetConfigValue("Resend:ApiKey"))
@@ -133,7 +133,7 @@ if (isProdEnv)
 {
     builder.AddContainer("admin-portal", "ghcr.io/suxrobgm/logistics-app/admin-portal")
         .WithImageTag("latest")
-        .WithHttpEndpoint(7002, 80, "admin-http")
+        .WithHttpEndpoint(1322, 80, "admin-http")
         .WithExternalHttpEndpoints()
         .WaitFor(logisticsApi)
         .WaitFor(identityServer)
@@ -141,7 +141,7 @@ if (isProdEnv)
 
     builder.AddContainer("tms-portal", "ghcr.io/suxrobgm/logistics-app/tms-portal")
         .WithImageTag("latest")
-        .WithHttpEndpoint(7003, 80, "tms-http")
+        .WithHttpEndpoint(1323, 80, "tms-http")
         .WithExternalHttpEndpoints()
         .WithEnvironment("MAPBOX_TOKEN", builder.GetConfigValue("Mapbox:AccessToken"))
         .WaitFor(logisticsApi)
@@ -150,7 +150,7 @@ if (isProdEnv)
 
     builder.AddContainer("customer-portal", "ghcr.io/suxrobgm/logistics-app/customer-portal")
         .WithImageTag("latest")
-        .WithHttpEndpoint(7004, 80, "customer-http")
+        .WithHttpEndpoint(1324, 80, "customer-http")
         .WithExternalHttpEndpoints()
         .WaitFor(logisticsApi)
         .WaitFor(identityServer)
@@ -158,7 +158,7 @@ if (isProdEnv)
 
     builder.AddContainer("website", "ghcr.io/suxrobgm/logistics-app/website")
         .WithImageTag("latest")
-        .WithHttpEndpoint(7005, 7005, "website-http")
+        .WithHttpEndpoint(1325, 1325, "website-http")
         .WithExternalHttpEndpoints()
         .WaitFor(logisticsApi)
         .WithComposeRestartPolicy();
@@ -166,25 +166,25 @@ if (isProdEnv)
 else
 {
     builder.AddBunApp("admin-portal", "../../Client/Logistics.Angular", "start:admin", true)
-        .WithHttpEndpoint(7002, 7002, "admin-http", isProxied: false)
+        .WithHttpEndpoint(1322, 1322, "admin-http", isProxied: false)
         .WithBunPackageInstallation()
         .WaitFor(logisticsApi)
         .WaitFor(identityServer);
 
     builder.AddBunApp("tms-portal", "../../Client/Logistics.Angular", "start:tms", true)
-        .WithHttpEndpoint(7003, 7003, "tms-http", isProxied: false)
+        .WithHttpEndpoint(1323, 1323, "tms-http", isProxied: false)
         .WithBunPackageInstallation()
         .WaitFor(logisticsApi)
         .WaitFor(identityServer);
 
     builder.AddBunApp("customer-portal", "../../Client/Logistics.Angular", "start:customer", true)
-        .WithHttpEndpoint(7004, 7004, "customer-http", isProxied: false)
+        .WithHttpEndpoint(1324, 1324, "customer-http", isProxied: false)
         .WithBunPackageInstallation()
         .WaitFor(logisticsApi)
         .WaitFor(identityServer);
 
     builder.AddBunApp("website", "../../Client/Logistics.Angular", "start:website", true)
-        .WithHttpEndpoint(7005, 7005, "website-http", isProxied: false)
+        .WithHttpEndpoint(1325, 1325, "website-http", isProxied: false)
         .WithBunPackageInstallation()
         .WaitFor(logisticsApi);
 }
@@ -199,7 +199,7 @@ if (isDevEnv)
         .WithEntrypoint("stripe")
         .WithArgs(
             "listen",
-            "--forward-to", "http://api:7000/webhooks/stripe")
+            "--forward-to", "http://api:1320/webhooks/stripe")
         .WaitFor(logisticsApi);
 }
 

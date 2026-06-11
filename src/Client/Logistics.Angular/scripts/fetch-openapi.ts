@@ -2,7 +2,7 @@
 
 /// <reference types="bun-types" />
 
-const API_URL = "http://localhost:7000/swagger/v1/swagger.json";
+const API_URL = "http://localhost:1320/swagger/v1/swagger.json";
 const OUTPUT_PATH = "openapi.json";
 const MAX_RETRIES = 3;
 const RETRY_DELAY_MS = 2000;

@@ -6,7 +6,7 @@
       "type": "chrome",
       "request": "launch",
       "preLaunchTask": "serve:tms",
-      "url": "https://localhost:7003",
+      "url": "https://localhost:1323",
       "webRoot": "${workspaceFolder}/projects/tms-portal/src",
       "sourceMapPathOverrides": {
         "webpack:/*": "${webRoot}/*"
@@ -17,7 +17,7 @@
       "type": "msedge",
       "request": "launch",
       "preLaunchTask": "serve:tms",
-      "url": "https://localhost:7003",
+      "url": "https://localhost:1323",
       "webRoot": "${workspaceFolder}/projects/tms-portal/src",
       "sourceMapPathOverrides": {
         "webpack:/*": "${webRoot}/*"
@@ -28,7 +28,7 @@
       "type": "chrome",
       "request": "launch",
       "preLaunchTask": "serve:customer",
-      "url": "https://localhost:7004",
+      "url": "https://localhost:1324",
       "webRoot": "${workspaceFolder}/projects/customer-portal/src",
       "sourceMapPathOverrides": {
         "webpack:/*": "${webRoot}/*"
@@ -39,7 +39,7 @@
       "type": "msedge",
       "request": "launch",
       "preLaunchTask": "serve:customer",
-      "url": "https://localhost:7004",
+      "url": "https://localhost:1324",
       "webRoot": "${workspaceFolder}/projects/customer-portal/src",
       "sourceMapPathOverrides": {
         "webpack:/*": "${webRoot}/*"

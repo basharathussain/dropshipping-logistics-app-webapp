@@ -24,7 +24,9 @@ internal class StripeSubscriptionSyncSeeder(ILogger<StripeSubscriptionSyncSeeder
     public override Task<bool> ShouldSkipAsync(SeederContext context, CancellationToken cancellationToken = default)
     {
         var stripeKey = context.Configuration["Stripe:SecretKey"];
-        if (string.IsNullOrEmpty(stripeKey))
+        // Treat a missing key OR an unreplaced placeholder as "not configured" —
+        // real Stripe secret keys always start with "sk_".
+        if (string.IsNullOrEmpty(stripeKey) || !stripeKey.StartsWith("sk_"))
         {
             LogSkipping("Stripe API key not configured");
             return Task.FromResult(true);

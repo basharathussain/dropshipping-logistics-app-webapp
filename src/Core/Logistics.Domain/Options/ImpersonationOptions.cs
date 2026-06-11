@@ -21,5 +21,5 @@ public sealed class ImpersonationOptions
     /// <summary>
     /// URL of the TMS Portal for impersonation redirect.
     /// </summary>
-    public string TmsPortalUrl { get; set; } = "http://localhost:7003";
+    public string TmsPortalUrl { get; set; } = "http://localhost:1323";
 }

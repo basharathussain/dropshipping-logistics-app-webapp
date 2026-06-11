@@ -104,7 +104,7 @@ public class Index(
     {
         try
         {
-            var apiUrl = configuration["Api:BaseUrl"] ?? "http://localhost:7000";
+            var apiUrl = configuration["Api:BaseUrl"] ?? "http://localhost:1320";
             var client = httpClientFactory.CreateClient();
             var response = await client.GetAsync($"{apiUrl}/invitations/validate/{token}");
 
@@ -125,7 +125,7 @@ public class Index(
     {
         try
         {
-            var apiUrl = configuration["Api:BaseUrl"] ?? "http://localhost:7000";
+            var apiUrl = configuration["Api:BaseUrl"] ?? "http://localhost:1320";
             var client = httpClientFactory.CreateClient();
 
             var request = new

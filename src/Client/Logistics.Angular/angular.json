@@ -105,7 +105,7 @@
           },
           "defaultConfiguration": "development",
           "options": {
-            "port": 7003
+            "port": 1323
           }
         },
         "extract-i18n": {
@@ -195,7 +195,7 @@
           },
           "defaultConfiguration": "development",
           "options": {
-            "port": 7004
+            "port": 1324
           }
         },
         "extract-i18n": {
@@ -285,7 +285,7 @@
           },
           "defaultConfiguration": "development",
           "options": {
-            "port": 7002
+            "port": 1322
           }
         },
         "extract-i18n": {
@@ -376,7 +376,7 @@
           },
           "defaultConfiguration": "development",
           "options": {
-            "port": 7005
+            "port": 1325
           }
         },
         "test": {

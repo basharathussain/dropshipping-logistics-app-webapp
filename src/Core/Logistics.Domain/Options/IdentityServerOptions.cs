@@ -4,7 +4,7 @@ public sealed class IdentityServerOptions
 {
     public const string SectionName = "IdentityServer";
 
-    public string Authority { get; set; } = "http://localhost:7001";
+    public string Authority { get; set; } = "http://localhost:1321";
 
     /// <summary>
     /// Public-facing URL for user-facing links (emails, redirects).

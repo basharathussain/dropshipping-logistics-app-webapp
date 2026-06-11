@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  apiUrl: "http://localhost:7000",
-  identityServerUrl: "http://localhost:7001",
+  apiUrl: "http://localhost:1320",
+  identityServerUrl: "http://localhost:1321",
   mapboxToken: "${MAPBOX_TOKEN}",
 };

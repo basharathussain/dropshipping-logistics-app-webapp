@@ -713,6 +713,59 @@
         }
       }
     },
+    "/ai/dispatch/decisions/{decisionId}/reject": {
+      "post": {
+        "tags": [
+          "AiDispatch"
+        ],
+        "operationId": "RejectAiDispatchDecision",
+        "parameters": [
+          {
+            "name": "decisionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RejectAiDispatchDecisionCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RejectAiDispatchDecisionCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RejectAiDispatchDecisionCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/ai/settings": {
       "get": {
         "tags": [
@@ -762,59 +815,6 @@
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/UpdateAiSettingsCommand"
-              }
-            }
-          }
-        },
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/ai/dispatch/decisions/{decisionId}/reject": {
-      "post": {
-        "tags": [
-          "AiDispatch"
-        ],
-        "operationId": "RejectAiDispatchDecision",
-        "parameters": [
-          {
-            "name": "decisionId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RejectAiDispatchDecisionCommand"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RejectAiDispatchDecisionCommand"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/RejectAiDispatchDecisionCommand"
               }
             }
           }
@@ -15443,63 +15443,6 @@
         },
         "additionalProperties": false
       },
-      "LlmModelOptionDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "displayName": {
-            "type": "string",
-            "nullable": true
-          },
-          "provider": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "PlanQuotaDto": {
-        "type": "object",
-        "properties": {
-          "planId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "planName": {
-            "type": "string",
-            "nullable": true
-          },
-          "weeklyAiRequestQuota": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "UpdateAiSettingsCommand": {
-        "type": "object",
-        "properties": {
-          "model": {
-            "type": "string",
-            "nullable": true
-          },
-          "extendedThinking": {
-            "type": "boolean"
-          },
-          "plans": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PlanQuotaDto"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "ApiKeyCreatedDto": {
         "type": "object",
         "properties": {
@@ -20782,6 +20725,24 @@
         },
         "additionalProperties": false
       },
+      "LlmModelOptionDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "displayName": {
+            "type": "string",
+            "nullable": true
+          },
+          "provider": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "LoadBoardBookingRequest": {
         "type": "object",
         "properties": {
@@ -22516,6 +22477,25 @@
         "properties": {
           "name": {
             "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PlanQuotaDto": {
+        "type": "object",
+        "properties": {
+          "planId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "planName": {
+            "type": "string",
+            "nullable": true
+          },
+          "weeklyAiRequestQuota": {
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           }
         },
@@ -25383,6 +25363,26 @@
         },
         "additionalProperties": false
       },
+      "UpdateAiSettingsCommand": {
+        "type": "object",
+        "properties": {
+          "model": {
+            "type": "string",
+            "nullable": true
+          },
+          "extendedThinking": {
+            "type": "boolean"
+          },
+          "plans": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlanQuotaDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "UpdateBlogPostCommand": {
         "type": "object",
         "properties": {
@@ -26605,6 +26605,9 @@
     },
     {
       "name": "AiDispatch"
+    },
+    {
+      "name": "AiSettings"
     },
     {
       "name": "ApiKeys"
