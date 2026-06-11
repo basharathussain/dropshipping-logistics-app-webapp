@@ -89,7 +89,11 @@ public static class Registrar
     {
         var options = app.Services.GetRequiredService<IOptions<TelegramBotOptions>>().Value;
 
-        if (string.IsNullOrEmpty(options.BotToken))
+        // Skip if the bot isn't really configured (missing or placeholder token).
+        // In Production with a WebhookUrl set, this method resolves ITelegramBotClient,
+        // which AddTelegramBotInfrastructure only registers for a valid token — so the
+        // guard here must match, or the API crashes on startup.
+        if (string.IsNullOrEmpty(options.BotToken) || !IsValidBotToken(options.BotToken))
             return app;
 
         // Production mode: register webhook with Telegram
