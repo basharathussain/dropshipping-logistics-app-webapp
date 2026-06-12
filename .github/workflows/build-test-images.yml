@@ -1,0 +1,65 @@
+name: Build test images
+
+# Build the deployable images on GitHub's runners (fast, cached, parallel) and
+# push them to GHCR. The VPS then just `docker compose pull && up -d` — no
+# building on the box. Runtime config (API/Identity URLs) is injected at
+# container start, so portals never need rebuilding for a host/URL change.
+
+on:
+  push:
+    branches: [test]
+    paths:
+      - "src/**"
+      - ".github/workflows/build-test-images.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  REGISTRY: ghcr.io
+  OWNER: basharathussain
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: api
+            dockerfile: src/Presentation/Logistics.API/Dockerfile
+          - name: identity
+            dockerfile: src/Presentation/Logistics.IdentityServer/Dockerfile
+          - name: migrator
+            dockerfile: src/Presentation/Logistics.DbMigrator/Dockerfile
+          - name: admin-portal
+            dockerfile: src/Client/Logistics.Angular/deploy/Dockerfile.admin
+          - name: tms-portal
+            dockerfile: src/Client/Logistics.Angular/deploy/Dockerfile.tms
+          - name: customer-portal
+            dockerfile: src/Client/Logistics.Angular/deploy/Dockerfile.customer
+          - name: website
+            dockerfile: src/Client/Logistics.Angular/deploy/Dockerfile.website
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push ${{ matrix.name }}
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ${{ matrix.dockerfile }}
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.OWNER }}/logisticsx-${{ matrix.name }}:test
+          cache-from: type=gha,scope=${{ matrix.name }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.name }}
