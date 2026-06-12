@@ -1,6 +1,4 @@
 #nullable enable
-using System.Text.RegularExpressions;
-
 using Duende.IdentityServer.Events;
 using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
@@ -66,18 +64,10 @@ public class Index(
             return Redirect(Input.ReturnUrl);
         }
 
-        User? user = null;
-        const string emailPattern = @"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}" +
-                                    @"\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\" +
-                                    @".)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$";
-        if (!Regex.IsMatch(Input.Email, emailPattern))
-        {
-            ModelState.AddModelError(string.Empty, LoginOptions.InvalidCredentialsErrorMessage);
-        }
-        else
-        {
-            user = await userManager.FindByEmailAsync(Input.Email);
-        }
+        // Accept either an email address or a plain username (seeded/test accounts
+        // such as "1230" are not email-shaped). Try email lookup first, then username.
+        User? user = await userManager.FindByEmailAsync(Input.Email)
+                     ?? await userManager.FindByNameAsync(Input.Email);
 
         if (user == null)
         {

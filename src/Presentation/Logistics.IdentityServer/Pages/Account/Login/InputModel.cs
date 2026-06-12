@@ -4,7 +4,9 @@ namespace Logistics.IdentityServer.Pages.Account.Login;
 
 public class InputModel
 {
-    [Required, EmailAddress]
+    // No [EmailAddress]: seeded/test accounts may sign in with a plain username
+    // (e.g. "1230"), not only an email. Lookup falls back to username in the handler.
+    [Required]
     [Display(Name = "Email")]
     public string Email { get; set; }
 
