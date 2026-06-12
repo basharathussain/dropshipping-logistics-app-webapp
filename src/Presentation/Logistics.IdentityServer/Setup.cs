@@ -94,14 +94,28 @@ internal static class Setup
         // Rate limiting configuration
         services.AddRateLimiter(options =>
         {
-            // Rate limit for login attempts per IP
+            // Behind nginx, Connection.RemoteIpAddress is the proxy's IP, so every
+            // user would share a single bucket. Partition by the real client IP from
+            // X-Forwarded-For (first hop) so the limit is per-client.
+            static string ClientIp(HttpContext ctx)
+            {
+                var xff = ctx.Request.Headers["X-Forwarded-For"].ToString();
+                if (!string.IsNullOrWhiteSpace(xff))
+                    return xff.Split(',')[0].Trim();
+                var realIp = ctx.Request.Headers["X-Real-IP"].ToString();
+                if (!string.IsNullOrWhiteSpace(realIp))
+                    return realIp;
+                return ctx.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+            }
+
+            // Rate limit for login attempts per client IP
             options.AddPolicy("login", context =>
                 RateLimitPartition.GetSlidingWindowLimiter(
-                    partitionKey: context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+                    partitionKey: ClientIp(context),
                     factory: _ => new SlidingWindowRateLimiterOptions
                     {
                         AutoReplenishment = true,
-                        PermitLimit = 10,
+                        PermitLimit = 50,
                         Window = TimeSpan.FromMinutes(15),
                         SegmentsPerWindow = 3,
                         QueueLimit = 0
@@ -110,7 +124,7 @@ internal static class Setup
             // Rate limit for impersonation token validation
             options.AddPolicy("impersonate", context =>
                 RateLimitPartition.GetFixedWindowLimiter(
-                    partitionKey: context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+                    partitionKey: ClientIp(context),
                     factory: _ => new FixedWindowRateLimiterOptions
                     {
                         AutoReplenishment = true,
