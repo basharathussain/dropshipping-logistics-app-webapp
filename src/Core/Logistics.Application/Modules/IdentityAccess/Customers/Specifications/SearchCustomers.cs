@@ -13,7 +13,8 @@ public class SearchCustomers : BaseSpecification<Customer>
     {
         if (!string.IsNullOrEmpty(search))
         {
-            Criteria = i => i.Name.Contains(search);
+            var searchLower = search.ToLower();
+            Criteria = i => i.Name.ToLower().Contains(searchLower);
         }
 
         OrderBy(orderBy);

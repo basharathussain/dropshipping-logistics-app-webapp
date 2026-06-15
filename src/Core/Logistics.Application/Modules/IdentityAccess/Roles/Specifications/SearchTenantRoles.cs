@@ -9,9 +9,10 @@ public class SearchTenantRoles : BaseSpecification<TenantRole>
     {
         if (!string.IsNullOrEmpty(search))
         {
+            var searchLower = search.ToLower();
             Criteria = i =>
-                i.Name.Contains(search) ||
-                (i.DisplayName != null && i.DisplayName.Contains(search));
+                i.Name.ToLower().Contains(searchLower) ||
+                (i.DisplayName != null && i.DisplayName.ToLower().Contains(searchLower));
         }
 
         ApplyPaging(page, pageSize);

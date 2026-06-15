@@ -11,9 +11,10 @@ public class FilterInvoicesByEmployeeName : BaseSpecification<PayrollInvoice>
         int page,
         int pageSize)
     {
+        var employeeNameLower = employeeName.ToLower();
         Criteria = i =>
-            !string.IsNullOrEmpty(i.Employee.FirstName) && i.Employee.FirstName.Contains(employeeName) ||
-            !string.IsNullOrEmpty(i.Employee.LastName) && i.Employee.LastName.Contains(employeeName);
+            !string.IsNullOrEmpty(i.Employee.FirstName) && i.Employee.FirstName.ToLower().Contains(employeeNameLower) ||
+            !string.IsNullOrEmpty(i.Employee.LastName) && i.Employee.LastName.ToLower().Contains(employeeNameLower);
 
         OrderBy(orderBy);
         ApplyPaging(page, pageSize);

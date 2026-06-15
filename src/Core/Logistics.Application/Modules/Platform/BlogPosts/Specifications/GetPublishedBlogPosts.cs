@@ -13,11 +13,12 @@ public sealed class GetPublishedBlogPosts : BaseSpecification<BlogPost>
         string? search = null,
         string? category = null)
     {
+        var searchLower = search?.ToLower() ?? string.Empty;
         Criteria = x =>
             x.Status == BlogPostStatus.Published &&
-            (string.IsNullOrEmpty(search) ||
-             x.Title.Contains(search) ||
-             (x.Excerpt != null && x.Excerpt.Contains(search))) &&
+            (string.IsNullOrEmpty(searchLower) ||
+             x.Title.ToLower().Contains(searchLower) ||
+             (x.Excerpt != null && x.Excerpt.ToLower().Contains(searchLower))) &&
             (string.IsNullOrEmpty(category) || x.Category == category);
 
         OrderBy(string.IsNullOrEmpty(orderBy) ? "-PublishedAt" : orderBy);

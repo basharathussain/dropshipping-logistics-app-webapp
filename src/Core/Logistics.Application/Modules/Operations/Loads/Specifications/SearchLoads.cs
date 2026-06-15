@@ -9,14 +9,15 @@ public class SearchLoads : BaseSpecification<Load>
     {
         if (!string.IsNullOrEmpty(search))
         {
+            var searchLower = search.ToLower();
             Criteria = i =>
-                (i.Name != null && i.Name.Contains(search)) ||
-                (i.Customer != null && i.Customer.Name.Contains(search)) ||
-                i.Number.ToString().Contains(search) ||
-                i.OriginAddress.Line1.Contains(search) ||
-                (i.OriginAddress.Line2 != null && i.OriginAddress.Line2.Contains(search)) ||
-                i.DestinationAddress.Line1.Contains(search) ||
-                (i.DestinationAddress.Line2 != null && i.DestinationAddress.Line2.Contains(search));
+                (i.Name != null && i.Name.ToLower().Contains(searchLower)) ||
+                (i.Customer != null && i.Customer.Name.ToLower().Contains(searchLower)) ||
+                i.Number.ToString().Contains(searchLower) ||
+                i.OriginAddress.Line1.ToLower().Contains(searchLower) ||
+                (i.OriginAddress.Line2 != null && i.OriginAddress.Line2.ToLower().Contains(searchLower)) ||
+                i.DestinationAddress.Line1.ToLower().Contains(searchLower) ||
+                (i.DestinationAddress.Line2 != null && i.DestinationAddress.Line2.ToLower().Contains(searchLower));
         }
 
         OrderBy(orderBy);

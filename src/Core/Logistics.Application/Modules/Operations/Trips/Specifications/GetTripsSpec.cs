@@ -20,7 +20,8 @@ public sealed class GetTripsSpec : BaseSpecification<Trip>
     {
         if (!string.IsNullOrEmpty(name))
         {
-            Criteria = i => i.Name.Contains(name);
+            var nameLower = name.ToLower();
+            Criteria = i => i.Name.ToLower().Contains(nameLower);
         }
 
         if (status.HasValue)

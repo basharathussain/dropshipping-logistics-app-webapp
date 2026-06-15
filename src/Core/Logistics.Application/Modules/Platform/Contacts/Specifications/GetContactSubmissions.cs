@@ -9,11 +9,12 @@ public sealed class GetContactSubmissions : BaseSpecification<ContactSubmission>
     {
         if (!string.IsNullOrEmpty(search))
         {
+            var searchLower = search.ToLower();
             Criteria = x =>
-                x.Email.Contains(search) ||
-                x.FirstName.Contains(search) ||
-                x.LastName.Contains(search) ||
-                x.Message.Contains(search);
+                x.Email.ToLower().Contains(searchLower) ||
+                x.FirstName.ToLower().Contains(searchLower) ||
+                x.LastName.ToLower().Contains(searchLower) ||
+                x.Message.ToLower().Contains(searchLower);
         }
 
         OrderBy(orderBy);

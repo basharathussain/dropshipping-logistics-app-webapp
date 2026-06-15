@@ -9,12 +9,13 @@ public sealed class SearchTrucks : BaseSpecification<Truck>
     {
         if (!string.IsNullOrEmpty(search))
         {
-            Criteria = i => i.Number.Contains(search) ||
-                            i.MainDriver != null && (i.MainDriver.FirstName.Contains(search) ||
-                                                     i.MainDriver.LastName.Contains(search)) ||
+            var searchLower = search.ToLower();
+            Criteria = i => i.Number.ToLower().Contains(searchLower) ||
+                            i.MainDriver != null && (i.MainDriver.FirstName.ToLower().Contains(searchLower) ||
+                                                     i.MainDriver.LastName.ToLower().Contains(searchLower)) ||
                             (i.SecondaryDriver != null &&
-                             (i.SecondaryDriver.FirstName.Contains(search) ||
-                              i.SecondaryDriver.LastName.Contains(search)));
+                             (i.SecondaryDriver.FirstName.ToLower().Contains(searchLower) ||
+                              i.SecondaryDriver.LastName.ToLower().Contains(searchLower)));
         }
 
         OrderBy(orderBy);

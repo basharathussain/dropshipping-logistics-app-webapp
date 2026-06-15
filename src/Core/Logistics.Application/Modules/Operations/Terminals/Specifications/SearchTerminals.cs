@@ -14,8 +14,9 @@ public class SearchTerminals : BaseSpecification<Terminal>
         TerminalType? type = null,
         string? countryCode = null)
     {
+        var searchLower = search?.ToLower() ?? string.Empty;
         Criteria = i =>
-            (string.IsNullOrEmpty(search) || i.Name.Contains(search) || i.Code.Contains(search)) &&
+            (string.IsNullOrEmpty(searchLower) || i.Name.ToLower().Contains(searchLower) || i.Code.ToLower().Contains(searchLower)) &&
             (!type.HasValue || i.Type == type.Value) &&
             (string.IsNullOrEmpty(countryCode) || i.CountryCode == countryCode);
 

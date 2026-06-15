@@ -10,11 +10,12 @@ public sealed class GetDemoRequests : BaseSpecification<DemoRequest>
     {
         if (!string.IsNullOrEmpty(search))
         {
+            var searchLower = search.ToLower();
             Criteria = x =>
-                x.Email.Contains(search) ||
-                x.FirstName.Contains(search) ||
-                x.LastName.Contains(search) ||
-                x.Company.Contains(search);
+                x.Email.ToLower().Contains(searchLower) ||
+                x.FirstName.ToLower().Contains(searchLower) ||
+                x.LastName.ToLower().Contains(searchLower) ||
+                x.Company.ToLower().Contains(searchLower);
         }
 
         OrderBy(orderBy);

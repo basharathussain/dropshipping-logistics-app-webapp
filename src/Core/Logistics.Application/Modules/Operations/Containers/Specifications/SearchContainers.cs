@@ -15,10 +15,11 @@ public class SearchContainers : BaseSpecification<Container>
         ContainerIsoType? isoType = null,
         Guid? currentTerminalId = null)
     {
+        var searchLower = search?.ToLower() ?? string.Empty;
         Criteria = i =>
-            (string.IsNullOrEmpty(search) || i.Number.Contains(search)
-                                          || (i.BookingReference != null && i.BookingReference.Contains(search))
-                                          || (i.BillOfLadingNumber != null && i.BillOfLadingNumber.Contains(search))) &&
+            (string.IsNullOrEmpty(searchLower) || i.Number.ToLower().Contains(searchLower)
+                                          || (i.BookingReference != null && i.BookingReference.ToLower().Contains(searchLower))
+                                          || (i.BillOfLadingNumber != null && i.BillOfLadingNumber.ToLower().Contains(searchLower))) &&
             (!status.HasValue || i.Status == status.Value) &&
             (!isoType.HasValue || i.IsoType == isoType.Value) &&
             (!currentTerminalId.HasValue || i.CurrentTerminalId == currentTerminalId.Value);

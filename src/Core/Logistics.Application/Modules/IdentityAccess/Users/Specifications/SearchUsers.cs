@@ -13,11 +13,12 @@ public class SearchUsers : BaseSpecification<User>
     {
         if (!string.IsNullOrEmpty(search))
         {
+            var searchLower = search.ToLower();
             Criteria = i =>
-                i.FirstName.Contains(search) ||
-                i.LastName.Contains(search) ||
-                (i.PhoneNumber != null && i.PhoneNumber.Contains(search)) ||
-                (i.Email != null && i.Email.Contains(search));
+                i.FirstName.ToLower().Contains(searchLower) ||
+                i.LastName.ToLower().Contains(searchLower) ||
+                (i.PhoneNumber != null && i.PhoneNumber.ToLower().Contains(searchLower)) ||
+                (i.Email != null && i.Email.ToLower().Contains(searchLower));
         }
 
         OrderBy(orderBy);

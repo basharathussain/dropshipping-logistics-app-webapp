@@ -14,11 +14,12 @@ public sealed class GetBlogPosts : BaseSpecification<BlogPost>
         string? category = null,
         BlogPostStatus? status = null)
     {
+        var searchLower = search?.ToLower() ?? string.Empty;
         Criteria = x =>
-            (string.IsNullOrEmpty(search) ||
-             x.Title.Contains(search) ||
-             x.Content.Contains(search) ||
-             (x.Excerpt != null && x.Excerpt.Contains(search))) &&
+            (string.IsNullOrEmpty(searchLower) ||
+             x.Title.ToLower().Contains(searchLower) ||
+             x.Content.ToLower().Contains(searchLower) ||
+             (x.Excerpt != null && x.Excerpt.ToLower().Contains(searchLower))) &&
             (string.IsNullOrEmpty(category) || x.Category == category) &&
             (!status.HasValue || x.Status == status.Value);
 

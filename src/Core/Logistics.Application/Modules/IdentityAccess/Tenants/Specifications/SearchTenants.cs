@@ -13,12 +13,13 @@ public class SearchTenants : BaseSpecification<Tenant>
     {
         if (!string.IsNullOrEmpty(search))
         {
+            var searchLower = search.ToLower();
             Criteria = i =>
                 (!string.IsNullOrEmpty(i.Name) &&
-                 i.Name.Contains(search)) ||
+                 i.Name.ToLower().Contains(searchLower)) ||
 
                 (!string.IsNullOrEmpty(i.CompanyName) &&
-                 i.CompanyName.Contains(search));
+                 i.CompanyName.ToLower().Contains(searchLower));
         }
 
         OrderBy(orderBy);
