@@ -70,6 +70,7 @@ export class SessionDetailPage implements OnInit, OnDestroy {
 
   protected readonly session = signal<AiDispatchSessionDto | null>(null);
   protected readonly isLoading = signal(false);
+  protected readonly promptCopied = signal(false);
 
   protected readonly Labels = Labels;
   protected readonly getToolLabel = getToolLabel;
@@ -88,6 +89,18 @@ export class SessionDetailPage implements OnInit, OnDestroy {
     const s = this.session();
     return s?.decisions?.some((d) => d.status === "rejected") ?? false;
   });
+
+  protected async copyPrompt(text: string | null | undefined): Promise<void> {
+    if (!text) return;
+    try {
+      await navigator.clipboard.writeText(text);
+      this.promptCopied.set(true);
+      this.toastService.showSuccess("Prompt copied to clipboard");
+      setTimeout(() => this.promptCopied.set(false), 2000);
+    } catch {
+      this.toastService.showError("Could not copy to clipboard");
+    }
+  }
 
   protected readonly statsItems = computed(() => {
     const s = this.session();
