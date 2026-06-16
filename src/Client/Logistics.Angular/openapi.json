@@ -836,6 +836,55 @@
         }
       }
     },
+    "/ai/settings/test-key": {
+      "post": {
+        "tags": [
+          "AiSettings"
+        ],
+        "operationId": "TestAiKey",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TestAiKeyCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TestAiKeyCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TestAiKeyCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiKeyTestResultDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/apikeys": {
       "get": {
         "tags": [
@@ -15390,6 +15439,23 @@
         ],
         "type": "string"
       },
+      "AiKeyTestResultDto": {
+        "type": "object",
+        "properties": {
+          "valid": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "model": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "AiQuotaStatusDto": {
         "type": "object",
         "properties": {
@@ -15425,6 +15491,13 @@
           },
           "extendedThinking": {
             "type": "boolean"
+          },
+          "hasApiKey": {
+            "type": "boolean"
+          },
+          "apiKeyMasked": {
+            "type": "string",
+            "nullable": true
           },
           "availableModels": {
             "type": "array",
@@ -22990,7 +23063,7 @@
             "nullable": true
           }
         },
-        "additionalProperties": {}
+        "additionalProperties": { }
       },
       "ProcessPaymentCommand": {
         "type": "object",
@@ -24528,6 +24601,20 @@
         ],
         "type": "string"
       },
+      "TestAiKeyCommand": {
+        "type": "object",
+        "properties": {
+          "model": {
+            "type": "string",
+            "nullable": true
+          },
+          "apiKey": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "TimeEntryDto": {
         "type": "object",
         "properties": {
@@ -25372,6 +25459,10 @@
           },
           "extendedThinking": {
             "type": "boolean"
+          },
+          "apiKey": {
+            "type": "string",
+            "nullable": true
           },
           "plans": {
             "type": "array",

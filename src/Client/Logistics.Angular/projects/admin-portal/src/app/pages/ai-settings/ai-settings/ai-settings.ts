@@ -1,11 +1,18 @@
 import { Component, inject, signal, type OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { Api, getAiSettings, updateAiSettings, type PlanQuotaDto } from "@logistics/shared/api";
+import {
+  Api,
+  getAiSettings,
+  testAiKey,
+  updateAiSettings,
+  type PlanQuotaDto,
+} from "@logistics/shared/api";
 import { Grid, PageHeader, Stack, Typography } from "@logistics/shared/components";
 import { ButtonModule } from "primeng/button";
 import { CardModule } from "primeng/card";
 import { CheckboxModule } from "primeng/checkbox";
 import { InputNumberModule } from "primeng/inputnumber";
+import { InputTextModule } from "primeng/inputtext";
 import { MessageModule } from "primeng/message";
 import { ProgressSpinnerModule } from "primeng/progressspinner";
 import { SelectModule } from "primeng/select";
@@ -17,6 +24,8 @@ interface ModelOption {
   value: string;
 }
 
+type KeyStatus = "unknown" | "valid" | "invalid";
+
 @Component({
   selector: "adm-ai-settings",
   templateUrl: "./ai-settings.html",
@@ -26,6 +35,7 @@ interface ModelOption {
     CardModule,
     CheckboxModule,
     InputNumberModule,
+    InputTextModule,
     MessageModule,
     ProgressSpinnerModule,
     SelectModule,
@@ -48,6 +58,15 @@ export class AiSettings implements OnInit {
   protected readonly modelOptions = signal<ModelOption[]>([]);
   protected readonly plans = signal<PlanQuotaDto[]>([]);
 
+  // API key (per the selected model's provider). The input stays empty unless the admin types a new
+  // key; a saved key is shown only as a masked placeholder. The Test button validates with a live call.
+  protected readonly apiKey = signal("");
+  protected readonly apiKeyMasked = signal<string | null>(null);
+  protected readonly hasApiKey = signal(false);
+  protected readonly isTestingKey = signal(false);
+  protected readonly keyStatus = signal<KeyStatus>("unknown");
+  protected readonly keyStatusMessage = signal("");
+
   ngOnInit(): void {
     this.load();
   }
@@ -65,10 +84,39 @@ export class AiSettings implements OnInit {
         })),
       );
       this.plans.set(settings.plans ?? []);
+      this.hasApiKey.set(settings.hasApiKey ?? false);
+      this.apiKeyMasked.set(settings.apiKeyMasked ?? null);
+      this.apiKey.set("");
+      this.keyStatus.set("unknown");
+      this.keyStatusMessage.set("");
     } catch {
       this.toastService.showError("Failed to load AI settings");
     } finally {
       this.isLoading.set(false);
+    }
+  }
+
+  protected async testKey(): Promise<void> {
+    this.isTestingKey.set(true);
+    this.keyStatus.set("unknown");
+    this.keyStatusMessage.set("");
+    try {
+      const result = await this.api.invoke(testAiKey, {
+        body: {
+          model: this.selectedModel(),
+          apiKey: this.apiKey().trim() || undefined,
+        },
+      });
+      const valid = result.valid ?? false;
+      this.keyStatus.set(valid ? "valid" : "invalid");
+      this.keyStatusMessage.set(
+        result.message ?? (valid ? "Connection successful." : "Invalid key."),
+      );
+    } catch {
+      this.keyStatus.set("invalid");
+      this.keyStatusMessage.set("Test request failed.");
+    } finally {
+      this.isTestingKey.set(false);
     }
   }
 
@@ -85,6 +133,8 @@ export class AiSettings implements OnInit {
         body: {
           model: this.selectedModel(),
           extendedThinking: this.extendedThinking(),
+          // Only send a key when the admin typed one; blank leaves the saved key unchanged.
+          apiKey: this.apiKey().trim() || undefined,
           plans: this.plans().map((p) => ({
             planId: p.planId,
             weeklyAiRequestQuota: p.weeklyAiRequestQuota,
@@ -92,6 +142,7 @@ export class AiSettings implements OnInit {
         },
       });
       this.toastService.showSuccess("AI settings saved successfully");
+      await this.load();
     } catch {
       this.toastService.showError("Failed to save AI settings");
     } finally {

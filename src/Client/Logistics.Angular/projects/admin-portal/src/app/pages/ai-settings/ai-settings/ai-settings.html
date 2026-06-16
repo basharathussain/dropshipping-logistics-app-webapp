@@ -25,6 +25,47 @@
           [fluid]="true"
         />
 
+        <!-- Provider API key + live test -->
+        <ui-stack gap="2">
+          <label for="apiKey">Provider API Key</label>
+          <ui-stack direction="row" align="center" gap="2">
+            <input
+              pInputText
+              id="apiKey"
+              type="password"
+              class="flex-1"
+              autocomplete="off"
+              [ngModel]="apiKey()"
+              (ngModelChange)="apiKey.set($event)"
+              [placeholder]="
+                hasApiKey()
+                  ? 'Saved: ' + apiKeyMasked() + ' — type a new key to replace'
+                  : 'Enter the provider API key'
+              "
+            />
+            <p-button
+              label="Test"
+              icon="pi pi-bolt"
+              severity="secondary"
+              [loading]="isTestingKey()"
+              (onClick)="testKey()"
+            />
+          </ui-stack>
+          @if (keyStatus() === "valid") {
+            <p-message severity="success" icon="pi pi-check-circle">{{ keyStatusMessage() }}</p-message>
+          } @else if (keyStatus() === "invalid") {
+            <p-message severity="error" icon="pi pi-times-circle">{{ keyStatusMessage() }}</p-message>
+          } @else if (hasApiKey()) {
+            <ui-typography variant="body-sm" color="muted">
+              A key is saved for this provider. Click Test to verify it.
+            </ui-typography>
+          } @else {
+            <ui-typography variant="body-sm" color="muted">
+              No key saved — the AI agent falls back to the server-configured key.
+            </ui-typography>
+          }
+        </ui-stack>
+
         <ui-stack direction="row" align="center" gap="3">
           <p-checkbox
             inputId="extendedThinking"
