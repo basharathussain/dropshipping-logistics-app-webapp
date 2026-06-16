@@ -8,6 +8,7 @@ import {
   GeoJSONSourceComponent,
   LayerComponent,
   MapComponent,
+  MarkerComponent,
   PopupComponent,
 } from "ngx-mapbox-gl";
 import { firstValueFrom } from "rxjs";
@@ -37,6 +38,7 @@ import type {
     MapComponent,
     LayerComponent,
     GeoJSONSourceComponent,
+    MarkerComponent,
     PopupComponent,
     MapContainer,
     MapControls,
@@ -111,6 +113,20 @@ export class DirectionMap {
 
   /** Show layer toggle in controls */
   public readonly showLayerToggle = input(true);
+
+  /** Optional current/live location (e.g. assigned truck) drawn as a distinct amber truck marker. */
+  public readonly currentLocation = input<GeoPoint | null>(null);
+
+  /** Valid [lng, lat] for the current location, or null when unset/invalid. */
+  protected readonly currentLngLat = computed<[number, number] | null>(() => {
+    const c = this.currentLocation();
+    if (!c) return null;
+    const lng = c.longitude ?? 0;
+    const lat = c.latitude ?? 0;
+    if (lng === 0 && lat === 0) return null;
+    if (lng < -180 || lng > 180 || lat < -90 || lat > 90) return null;
+    return [lng, lat];
+  });
 
   /** Emitted when the route changes. */
   public readonly routeChange = output<RouteChangeEvent>();
@@ -292,6 +308,11 @@ export class DirectionMap {
   private fitAndCenter(waypoints: Waypoint[]): void {
     const xs = waypoints.map((p) => p.location.longitude ?? 0);
     const ys = waypoints.map((p) => p.location.latitude ?? 0);
+    const cur = this.currentLngLat();
+    if (cur) {
+      xs.push(cur[0]);
+      ys.push(cur[1]);
+    }
     const minX = Math.min(...xs);
     const minY = Math.min(...ys);
     const maxX = Math.max(...xs);

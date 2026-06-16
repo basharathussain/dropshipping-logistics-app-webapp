@@ -1,10 +1,11 @@
 import { CommonModule } from "@angular/common";
-import { Component, inject, input, signal, viewChild, type OnInit } from "@angular/core";
+import { Component, computed, inject, input, signal, viewChild, type OnInit } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
 import {
   Api,
   getLoadById,
   type DocumentType,
+  type GeoPoint,
   type LoadDto,
   type LoadExceptionDto,
 } from "@logistics/shared/api";
@@ -20,7 +21,7 @@ import { CardModule } from "primeng/card";
 import { DividerModule } from "primeng/divider";
 import { ProgressSpinnerModule } from "primeng/progressspinner";
 import { TabsModule } from "primeng/tabs";
-import { DocumentManager, PageHeader } from "@/shared/components";
+import { DirectionMap, DocumentManager, PageHeader, type Waypoint } from "@/shared/components";
 import { LoadStatusTag, LoadTypeTag } from "@/shared/components/tags";
 import {
   LoadExceptionsContent,
@@ -49,6 +50,7 @@ import {
     LoadTypeTag,
     AddressPipe,
     DistanceUnitPipe,
+    DirectionMap,
     DocumentManager,
     LoadStatusStepper,
     LoadPodContent,
@@ -72,6 +74,23 @@ export class LoadDetailPage implements OnInit {
   protected readonly id = input.required<string>();
   protected readonly isLoading = signal(false);
   protected readonly load = signal<LoadDto | null>(null);
+
+  /** Origin + destination waypoints for the route map (numbered 1, 2). */
+  protected readonly routeWaypoints = computed<Waypoint[]>(() => {
+    const l = this.load();
+    if (!l?.originLocation || !l?.destinationLocation) return [];
+    return [
+      { id: "origin", location: l.originLocation },
+      { id: "destination", location: l.destinationLocation },
+    ];
+  });
+
+  /** Truck/current location for the map — only while the load is not yet delivered. */
+  protected readonly truckLocation = computed<GeoPoint | null>(() => {
+    const l = this.load();
+    if (!l || l.status === "delivered") return null;
+    return l.currentLocation ?? null;
+  });
   protected readonly activeTab = signal(0);
   protected readonly showTrackingDialog = signal(false);
 

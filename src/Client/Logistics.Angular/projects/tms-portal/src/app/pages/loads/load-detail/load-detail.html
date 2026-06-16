@@ -247,6 +247,18 @@
                 <p class="text-secondary">{{ load()!.currentAddress | address }}</p>
               </div>
             }
+
+            @if (routeWaypoints().length === 2) {
+              <p-divider />
+              <div class="h-96 overflow-hidden rounded-lg">
+                <app-direction-map
+                  [waypoints]="routeWaypoints()"
+                  [currentLocation]="truckLocation()"
+                  height="100%"
+                  [showLayerToggle]="false"
+                />
+              </div>
+            }
           </p-card>
 
           <!-- Timeline Card -->

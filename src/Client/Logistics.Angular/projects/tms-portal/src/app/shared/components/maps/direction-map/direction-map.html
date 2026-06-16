@@ -120,6 +120,19 @@
       }"
     />
 
+    <!-- Current/live location (e.g. assigned truck) -->
+    @if (currentLngLat(); as cur) {
+      <mgl-marker [lngLat]="cur">
+        <div
+          class="flex h-7 w-7 items-center justify-center rounded-full bg-amber-400 text-white shadow ring-2 ring-white"
+          title="Current location"
+          aria-label="Current truck location"
+        >
+          <i class="pi pi-truck text-sm"></i>
+        </div>
+      </mgl-marker>
+    }
+
     <!-- Segment hover tooltip -->
     @if (hoveredSegment()) {
       <mgl-popup
