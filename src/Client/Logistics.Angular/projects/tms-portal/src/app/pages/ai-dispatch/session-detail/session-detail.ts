@@ -90,6 +90,25 @@ export class SessionDetailPage implements OnInit, OnDestroy {
     return s?.decisions?.some((d) => d.status === "rejected") ?? false;
   });
 
+  // The finalized prompt plus the tool calls/results captured during the run, so the whole session
+  // can be replayed against another LLM from a single copy.
+  protected readonly fullPrompt = computed(() => {
+    const s = this.session();
+    if (!s?.prompt) return "";
+    let text = s.prompt;
+    const decisions = s.decisions ?? [];
+    if (decisions.length > 0) {
+      text += "\n\n===== TOOL CALLS & RESULTS (from this run) =====";
+      decisions.forEach((d, i) => {
+        text += `\n\n--- ${i + 1}. ${d.toolName ?? "decision"} ---`;
+        if (d.toolInput) text += `\nArguments: ${d.toolInput}`;
+        if (d.toolOutput) text += `\nResult: ${d.toolOutput}`;
+        if (d.reasoning) text += `\nReasoning: ${d.reasoning}`;
+      });
+    }
+    return text;
+  });
+
   protected async copyPrompt(text: string | null | undefined): Promise<void> {
     if (!text) return;
     try {

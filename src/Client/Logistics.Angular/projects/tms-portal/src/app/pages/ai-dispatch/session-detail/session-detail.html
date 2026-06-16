@@ -61,12 +61,12 @@
       </ui-surface>
     }
 
-    <!-- Finalized LLM prompt (copyable for independent testing across models) -->
+    <!-- Finalized LLM prompt + tool results: copyable for independent replay across models -->
     @if (session.prompt) {
       <ui-surface variant="subtle" [border]="true" class="mb-6">
         <ui-stack direction="row" align="center" gap="2" class="mb-2">
           <ui-icon name="comment" color="primary" />
-          <span class="text-sm font-semibold">LLM Prompt (finalized input)</span>
+          <span class="text-sm font-semibold">LLM Prompt &amp; Tool Results (replay)</span>
           <span class="flex-1"></span>
           <p-button
             size="small"
@@ -74,12 +74,12 @@
             [text]="true"
             [icon]="promptCopied() ? 'pi pi-check' : 'pi pi-copy'"
             [label]="promptCopied() ? 'Copied' : 'Copy'"
-            (onClick)="copyPrompt(session.prompt)"
+            (onClick)="copyPrompt(fullPrompt())"
           />
         </ui-stack>
         <pre
           class="text-secondary m-0 max-h-96 overflow-auto whitespace-pre-wrap break-words text-xs"
-        >{{ session.prompt }}</pre>
+        >{{ fullPrompt() }}</pre>
       </ui-surface>
     }
 
