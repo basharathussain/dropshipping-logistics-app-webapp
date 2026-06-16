@@ -65,6 +65,10 @@ internal sealed class AiDispatchConversationBuilder(
 
         var messages = new List<LlmMessage> { LlmMessage.FromUser(userMessage) };
 
+        // Persist the finalized prompt (system + user + available tools) so it can be inspected /
+        // copied from the session page for independent LLM testing — even if the call later fails.
+        session.Prompt = BuildPromptSnapshot(systemPrompt, userMessage, tools);
+
         // Build thinking options: global system setting → appsettings default.
         // Only honored by providers/models that support it; others ignore it.
         LlmThinkingOptions? thinking = null;
@@ -76,6 +80,17 @@ internal sealed class AiDispatchConversationBuilder(
             thinking = new LlmThinkingOptions(config.ThinkingBudgetTokens);
 
         return new LlmConversation(provider, systemPrompt, messages, tools, model, config.MaxTokens, thinking);
+    }
+
+    private static string BuildPromptSnapshot(
+        string systemPrompt,
+        string userMessage,
+        IReadOnlyList<AiDispatchToolDefinition> tools)
+    {
+        var toolList = string.Join("\n", tools.Select(t => $"- {t.Name}: {t.Description}"));
+        return $"===== SYSTEM PROMPT =====\n{systemPrompt}\n\n" +
+               $"===== USER MESSAGE =====\n{userMessage}\n\n" +
+               $"===== TOOLS AVAILABLE (function calling) =====\n{toolList}";
     }
 
     private static string BuildUserMessage(AiDispatchRequest request)

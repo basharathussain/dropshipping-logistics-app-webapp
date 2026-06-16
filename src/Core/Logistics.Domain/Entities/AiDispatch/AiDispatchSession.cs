@@ -66,6 +66,12 @@ public class AiDispatchSession : AuditableEntity, ITenantEntity
     public string? ModelUsed { get; set; }
 
     /// <summary>
+    /// The finalized prompt (system + user message + available tools) sent to the LLM at the start of
+    /// this session. Captured at build time so it can be inspected/copied even if the call later failed.
+    /// </summary>
+    public string? Prompt { get; set; }
+
+    /// <summary>
     /// Number of decisions made by the agent.
     /// </summary>
     public int DecisionCount { get; set; }

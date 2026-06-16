@@ -18,6 +18,7 @@ public class AiDispatchSessionDto
     public int CacheCreationTokens { get; set; }
     public decimal EstimatedCostUsd { get; set; }
     public string? ModelUsed { get; set; }
+    public string? Prompt { get; set; }
     public int DecisionCount { get; set; }
     public string? Summary { get; set; }
     public string? Instructions { get; set; }
