@@ -23,6 +23,8 @@ internal static class LlmPricing
         // OpenAI GPT-5.x - https://openai.com/api/pricing/
         ["gpt-5.4"] = new(2.50m, 15m, 0.25m),
         ["gpt-5.4-mini"] = new(0.75m, 4.50m, 0.075m),
+        // OpenAI GPT-4o - https://openai.com/api/pricing/
+        ["gpt-4o-mini"] = new(0.15m, 0.60m, 0.075m),
 
         // DeepSeek - https://api-docs.deepseek.com/quick_start/pricing/
         ["deepseek-v4-flash"] = new(0.14m, 0.28m, 0.0028m),
@@ -37,7 +39,7 @@ internal static class LlmPricing
     /// </summary>
     public static int GetMultiplier(string model) => model switch
     {
-        "deepseek-v4-flash" or "deepseek-v4-pro" or "gpt-5.4-mini" or "claude-haiku-4-5" => 1,
+        "deepseek-v4-flash" or "deepseek-v4-pro" or "gpt-4o-mini" or "gpt-5.4-mini" or "claude-haiku-4-5" => 1,
         "gpt-5.4" or "claude-sonnet-4-6" => 5,
         "claude-opus-4-8" => 10,
         _ => 1
@@ -49,7 +51,7 @@ internal static class LlmPricing
     /// </summary>
     public static int GetOverageBillingUnits(string model) => model switch
     {
-        "deepseek-v4-flash" or "deepseek-v4-pro" or "gpt-5.4-mini" or "claude-haiku-4-5" => 1,
+        "deepseek-v4-flash" or "deepseek-v4-pro" or "gpt-4o-mini" or "gpt-5.4-mini" or "claude-haiku-4-5" => 1,
         "gpt-5.4" or "claude-sonnet-4-6" => 2,
         "claude-opus-4-8" => 4,
         _ => 1

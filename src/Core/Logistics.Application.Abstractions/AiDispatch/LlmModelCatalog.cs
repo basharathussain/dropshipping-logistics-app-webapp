@@ -13,6 +13,7 @@ public static class LlmModelCatalog
     [
         new("deepseek-v4-flash", "DeepSeek V4 Flash", LlmProvider.DeepSeek),
         new("deepseek-v4-pro", "DeepSeek V4 Pro", LlmProvider.DeepSeek),
+        new("gpt-4o-mini", "GPT-4O Mini", LlmProvider.OpenAi),
         new("gpt-5.4-mini", "GPT-5.4 Mini", LlmProvider.OpenAi),
         new("gpt-5.4", "GPT-5.4", LlmProvider.OpenAi),
         new("claude-haiku-4-5", "Claude Haiku 4.5", LlmProvider.Anthropic),
