@@ -32,4 +32,14 @@ public class AiSettingsController(IMediator mediator) : ControllerBase
         var result = await mediator.Send(command);
         return result.IsSuccess ? NoContent() : BadRequest(ErrorResponse.FromResult(result));
     }
+
+    [HttpPost("test-key", Name = "TestAiKey")]
+    [ProducesResponseType(typeof(AiKeyTestResultDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
+    [Authorize(Policy = Permission.Tenant.Manage)]
+    public async Task<IActionResult> TestAiKey([FromBody] TestAiKeyCommand command)
+    {
+        var result = await mediator.Send(command);
+        return result.IsSuccess ? Ok(result.Value) : BadRequest(ErrorResponse.FromResult(result));
+    }
 }

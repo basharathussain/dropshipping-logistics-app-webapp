@@ -23,6 +23,15 @@ internal sealed class UpdateAiSettingsHandler(
         await systemSettings.SetAsync(AiSettingsKeys.ExtendedThinking, req.ExtendedThinking.ToString(),
             "Whether extended thinking is enabled for the dispatch agent", ct);
 
+        // Persist the API key for the selected model's provider (overrides appsettings/env).
+        // Ignore blanks and the masked placeholder the UI may echo back.
+        var apiKey = req.ApiKey?.Trim();
+        if (!string.IsNullOrWhiteSpace(apiKey) && !apiKey.Contains('\u2022'))
+        {
+            await systemSettings.SetAsync(AiSettingsKeys.ApiKeyFor(modelInfo.Provider), apiKey,
+                $"AI dispatch API key for provider {modelInfo.Provider}", ct);
+        }
+
         // Update per-plan weekly quotas (null = unlimited).
         var planRepo = masterUow.Repository<SubscriptionPlan>();
         var changed = false;

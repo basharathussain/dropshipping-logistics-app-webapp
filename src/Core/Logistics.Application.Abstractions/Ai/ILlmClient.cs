@@ -14,6 +14,13 @@ public interface ILlmClient
     /// Sends a single completion request and returns the model's text response.
     /// </summary>
     Task<Result<LlmCompletionResult>> CompleteAsync(LlmCompletionRequest request, CancellationToken ct = default);
+
+    /// <summary>
+    /// Validates connectivity to the LLM provider with a minimal live call. When <paramref name="apiKey"/>
+    /// is null the saved/configured key for the model's provider is used. Backs the admin "Test key" button.
+    /// </summary>
+    Task<Result<LlmConnectionTestResult>> TestConnectionAsync(
+        string? modelId, string? apiKey, CancellationToken ct = default);
 }
 
 /// <summary>
@@ -55,3 +62,6 @@ public sealed record LlmCompletionResult(
     int InputTokens,
     int OutputTokens,
     decimal EstimatedCostUsd);
+
+/// <summary>The result of an LLM connectivity/key validation test.</summary>
+public sealed record LlmConnectionTestResult(bool Valid, string Message, string Model);

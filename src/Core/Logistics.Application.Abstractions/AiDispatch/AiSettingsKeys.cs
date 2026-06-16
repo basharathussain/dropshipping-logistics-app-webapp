@@ -1,3 +1,5 @@
+using Logistics.Domain.Primitives.Enums;
+
 namespace Logistics.Application.Abstractions.AiDispatch;
 
 /// <summary>
@@ -16,4 +18,13 @@ public static class AiSettingsKeys
     /// Only honored by providers/models that support it (e.g. Anthropic); ignored otherwise.
     /// </summary>
     public const string ExtendedThinking = "Ai.ExtendedThinking";
+
+    /// <summary>
+    /// Per-provider API key prefix; the full key is <c>Ai.ApiKey.{Provider}</c>. When set via the
+    /// admin AI Settings page, it overrides the appsettings/env key for that provider.
+    /// </summary>
+    public const string ApiKeyPrefix = "Ai.ApiKey.";
+
+    /// <summary>The SystemSettings key holding the API key for the given provider.</summary>
+    public static string ApiKeyFor(LlmProvider provider) => $"{ApiKeyPrefix}{provider}";
 }

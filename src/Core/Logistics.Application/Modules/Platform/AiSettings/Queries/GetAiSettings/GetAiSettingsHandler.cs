@@ -25,6 +25,9 @@ internal sealed class GetAiSettingsHandler(
 
         var modelInfo = LlmModelCatalog.Find(model) ?? LlmModelCatalog.Models[0];
 
+        // Admin-set API key (per provider), masked for display.
+        var storedKey = await systemSettings.GetAsync(AiSettingsKeys.ApiKeyFor(modelInfo.Provider), ct);
+
         // Extended thinking: system setting → appsettings default
         var thinkingSetting = await systemSettings.GetAsync(AiSettingsKeys.ExtendedThinking, ct);
         var extendedThinking = bool.TryParse(thinkingSetting, out var parsedThinking)
@@ -38,6 +41,8 @@ internal sealed class GetAiSettingsHandler(
             Model = modelInfo.Id,
             Provider = modelInfo.Provider.ToString(),
             ExtendedThinking = extendedThinking,
+            HasApiKey = !string.IsNullOrWhiteSpace(storedKey),
+            ApiKeyMasked = MaskKey(storedKey),
             AvailableModels = [.. LlmModelCatalog.Models.Select(m => new LlmModelOptionDto
             {
                 Id = m.Id,
@@ -54,4 +59,9 @@ internal sealed class GetAiSettingsHandler(
                 })]
         });
     }
+
+    private static string? MaskKey(string? key) =>
+        string.IsNullOrWhiteSpace(key) ? null
+        : key.Length <= 8 ? "••••"
+        : $"{key[..3]}••••••••{key[^4..]}";
 }

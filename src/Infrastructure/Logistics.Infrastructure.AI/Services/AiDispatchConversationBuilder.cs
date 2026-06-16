@@ -39,8 +39,8 @@ internal sealed class AiDispatchConversationBuilder(
         // The provider is derived from the model via the catalog, so it can't drift.
         var selection = await modelResolver.ResolveAsync(config);
         var resolvedProvider = selection.Provider;
-        var provider = providerFactory.Create(resolvedProvider);
         var providerConfig = selection.ProviderConfig;
+        var provider = providerFactory.Create(resolvedProvider, providerConfig);
 
         if (string.IsNullOrWhiteSpace(providerConfig.ApiKey))
             throw new InvalidOperationException("LLM API key is not configured.");

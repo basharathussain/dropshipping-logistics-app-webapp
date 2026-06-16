@@ -17,8 +17,14 @@ internal sealed class LlmModelResolver(ISystemSettingsService systemSettings)
         var modelSetting = await systemSettings.GetAsync(AiSettingsKeys.Model, ct);
         var modelInfo = LlmModelCatalog.Find(modelSetting);
         var provider = modelInfo?.Provider ?? config.DefaultProvider;
-        var providerConfig = config.GetProviderConfig(provider);
-        var model = modelInfo?.Id ?? providerConfig.Model;
+        var baseConfig = config.GetProviderConfig(provider);
+        var model = modelInfo?.Id ?? baseConfig.Model;
+
+        // An admin-set key (AI Settings page) overrides the appsettings/env key for this provider.
+        var storedKey = await systemSettings.GetAsync(AiSettingsKeys.ApiKeyFor(provider), ct);
+        var providerConfig = string.IsNullOrWhiteSpace(storedKey)
+            ? baseConfig
+            : new LlmProviderOptions { ApiKey = storedKey, Model = baseConfig.Model, BaseUrl = baseConfig.BaseUrl };
 
         return new LlmModelSelection(model, provider, providerConfig);
     }

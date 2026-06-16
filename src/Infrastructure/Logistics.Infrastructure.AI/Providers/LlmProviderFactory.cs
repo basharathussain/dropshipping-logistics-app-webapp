@@ -13,12 +13,14 @@ internal sealed class LlmProviderFactory(IOptions<LlmOptions> options)
     public ILlmProvider Create(LlmProvider? providerOverride = null)
     {
         var type = providerOverride ?? options.Value.DefaultProvider;
-        var config = options.Value.GetProviderConfig(type);
+        return Create(type, options.Value.GetProviderConfig(type));
+    }
 
-        return type switch
+    /// <summary>Creates a provider using an explicit config (e.g. with an admin-set API key override).</summary>
+    public ILlmProvider Create(LlmProvider type, LlmProviderOptions config) =>
+        type switch
         {
             LlmProvider.Anthropic => new AnthropicLlmProvider(config),
             _ => new OpenAiLlmProvider(config)
         };
-    }
 }

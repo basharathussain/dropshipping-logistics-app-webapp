@@ -17,6 +17,12 @@ public record AiSettingsDto
     /// </summary>
     public bool ExtendedThinking { get; set; }
 
+    /// <summary>Whether an API key is configured for the selected model's provider.</summary>
+    public bool HasApiKey { get; set; }
+
+    /// <summary>The configured key, masked for display (e.g. "sk-••••abcd"). Null when unset.</summary>
+    public string? ApiKeyMasked { get; set; }
+
     /// <summary>All models an admin can choose from.</summary>
     public List<LlmModelOptionDto> AvailableModels { get; set; } = [];
 
