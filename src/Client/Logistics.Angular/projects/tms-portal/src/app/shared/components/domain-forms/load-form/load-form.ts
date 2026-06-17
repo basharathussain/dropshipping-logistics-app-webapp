@@ -1,4 +1,14 @@
-import { Component, effect, inject, input, output, signal, type OnInit } from "@angular/core";
+import {
+  Component,
+  DestroyRef,
+  effect,
+  inject,
+  input,
+  output,
+  signal,
+  type OnInit,
+} from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { RouterLink } from "@angular/router";
 import {
@@ -10,6 +20,8 @@ import {
   type LoadSource,
   type LoadStatus,
   type LoadType,
+  type MaterialType,
+  type PackagingType,
   type TerminalDto,
   type TruckDto,
 } from "@logistics/shared/api";
@@ -18,6 +30,8 @@ import {
   loadSourceOptions,
   loadStatusOptions,
   loadTypeOptions,
+  materialTypeOptions,
+  packagingTypeOptions,
 } from "@logistics/shared/api/enums";
 import {
   FormField,
@@ -95,6 +109,11 @@ export interface LoadFormValue {
   isHazmat?: boolean;
   hazmatClass?: HazmatClass | null;
   unNumber?: string | null;
+  // Rate + commodities
+  ratePerMile?: number | null;
+  estimatedWeight?: number | null;
+  materialType?: MaterialType | null;
+  packaging?: PackagingType | null;
 }
 
 @Component({
@@ -136,7 +155,11 @@ export class LoadForm implements OnInit {
   protected readonly loadStatuses = loadStatusOptions;
   protected readonly loadSources = loadSourceOptions;
   protected readonly hazmatClasses = hazmatClassOptions;
+  protected readonly materialTypes = materialTypeOptions;
+  protected readonly packagings = packagingTypeOptions;
   private readonly dummyLocation: GeoPoint = { longitude: 0, latitude: 0 };
+  private readonly destroyRef = inject(DestroyRef);
+  private rateSyncing = false;
 
   private readonly authService = inject(AuthService);
   private readonly toastService = inject(ToastService);
@@ -205,6 +228,11 @@ export class LoadForm implements OnInit {
     unNumber: new FormControl<string | null>(null, {
       validators: [Validators.maxLength(16), Validators.pattern(/^UN\d{4}$/i)],
     }),
+    // Rate per mile (two-way with deliveryCost via distance) + commodities
+    ratePerMile: new FormControl<number | null>(null),
+    estimatedWeight: new FormControl<number | null>(null),
+    materialType: new FormControl<MaterialType | null>(null),
+    packaging: new FormControl<PackagingType | null>(null),
     // only visible/patched when mode === 'edit'
     status: new FormControl<LoadStatus | null>(null),
     // Truck assignment is optional - load can be created without a truck (e.g., from load board)
@@ -235,6 +263,43 @@ export class LoadForm implements OnInit {
 
       this.patch(initialData);
     });
+
+    this.setupRateSync();
+  }
+
+  /**
+   * Two-way sync between delivery cost and rate-per-mile, using the route distance (miles).
+   * Editing one recomputes the other; a fresh route distance recomputes the rate from the cost.
+   */
+  private setupRateSync(): void {
+    const round2 = (n: number) => Math.round(n * 100) / 100;
+    const miles = () => this.form.controls.distance.value ?? 0;
+
+    this.form.controls.deliveryCost.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((cost) => {
+        if (this.rateSyncing || miles() <= 0 || cost == null) return;
+        this.rateSyncing = true;
+        this.form.controls.ratePerMile.setValue(round2(cost / miles()), { emitEvent: false });
+        this.rateSyncing = false;
+      });
+
+    this.form.controls.ratePerMile.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((rpm) => {
+        if (this.rateSyncing || miles() <= 0 || rpm == null) return;
+        this.rateSyncing = true;
+        this.form.controls.deliveryCost.setValue(round2(rpm * miles()), { emitEvent: false });
+        this.rateSyncing = false;
+      });
+
+    this.form.controls.distance.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((d) => {
+        const cost = this.form.controls.deliveryCost.value ?? 0;
+        if (this.rateSyncing || (d ?? 0) <= 0 || cost == null) return;
+        this.form.controls.ratePerMile.setValue(round2(cost / (d as number)), { emitEvent: false });
+      });
   }
 
   ngOnInit(): void {

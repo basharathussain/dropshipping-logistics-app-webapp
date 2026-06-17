@@ -43,6 +43,10 @@ export class LoadAddComponent {
       isHazmat: formValue.isHazmat ?? false,
       hazmatClass: formValue.hazmatClass ?? undefined,
       unNumber: formValue.unNumber ?? null,
+      ratePerMile: formValue.ratePerMile ?? null,
+      estimatedWeight: formValue.estimatedWeight ?? null,
+      materialType: formValue.materialType ?? undefined,
+      packaging: formValue.packaging ?? undefined,
     };
 
     await this.api.invoke(createLoad, { body: command });

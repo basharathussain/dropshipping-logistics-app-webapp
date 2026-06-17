@@ -66,6 +66,10 @@ export class LoadEditComponent implements OnInit {
         isHazmat: formValue.isHazmat ?? false,
         hazmatClass: formValue.hazmatClass ?? undefined,
         unNumber: formValue.unNumber ?? null,
+        ratePerMile: formValue.ratePerMile ?? null,
+        estimatedWeight: formValue.estimatedWeight ?? null,
+        materialType: formValue.materialType ?? undefined,
+        packaging: formValue.packaging ?? undefined,
       } as Partial<UpdateLoadCommand>),
     };
 
@@ -101,6 +105,10 @@ export class LoadEditComponent implements OnInit {
       destinationLocation: load.destinationLocation,
       deliveryCost: load.deliveryCost,
       distance: Converters.metersTo(load.distance ?? 0, "mi"),
+      ratePerMile: load.ratePerMile ?? null,
+      estimatedWeight: load.estimatedWeight ?? null,
+      materialType: load.materialType ?? null,
+      packaging: load.packaging ?? null,
       status: load.status,
       assignedDispatcherId: load.assignedDispatcherId ?? undefined,
       assignedDispatcherName: load.assignedDispatcherName ?? undefined,

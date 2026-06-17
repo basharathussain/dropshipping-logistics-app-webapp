@@ -17262,6 +17262,22 @@
           "unNumber": {
             "type": "string",
             "nullable": true
+          },
+          "ratePerMile": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "estimatedWeight": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "materialType": {
+            "$ref": "#/components/schemas/MaterialType"
+          },
+          "packaging": {
+            "$ref": "#/components/schemas/PackagingType"
           }
         },
         "additionalProperties": false
@@ -21243,6 +21259,22 @@
             "type": "string",
             "nullable": true
           },
+          "ratePerMile": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "estimatedWeight": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "materialType": {
+            "$ref": "#/components/schemas/MaterialType"
+          },
+          "packaging": {
+            "$ref": "#/components/schemas/PackagingType"
+          },
           "containerId": {
             "type": "string",
             "format": "uuid",
@@ -22036,6 +22068,20 @@
         },
         "additionalProperties": false
       },
+      "MaterialType": {
+        "enum": [
+          "general",
+          "hazmat",
+          "refrigerated",
+          "liquid_bulk",
+          "vehicles",
+          "machinery_equipment",
+          "building_materials",
+          "agricultural",
+          "other"
+        ],
+        "type": "string"
+      },
       "MessageDto": {
         "required": [
           "content"
@@ -22228,6 +22274,20 @@
           }
         },
         "additionalProperties": false
+      },
+      "PackagingType": {
+        "enum": [
+          "pallets",
+          "boxes_cartons",
+          "crates",
+          "drums",
+          "bags_sacks",
+          "rolls",
+          "bulk_loose",
+          "containers",
+          "other"
+        ],
+        "type": "string"
       },
       "PaginationMeta": {
         "type": "object",
@@ -25982,6 +26042,22 @@
           "unNumber": {
             "type": "string",
             "nullable": true
+          },
+          "ratePerMile": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "estimatedWeight": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "materialType": {
+            "$ref": "#/components/schemas/MaterialType"
+          },
+          "packaging": {
+            "$ref": "#/components/schemas/PackagingType"
           }
         },
         "additionalProperties": false

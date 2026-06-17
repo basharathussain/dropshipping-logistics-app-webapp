@@ -20,6 +20,8 @@ import type {
   LoadSource,
   LoadStatus,
   LoadType,
+  MaterialType,
+  PackagingType,
   PaymentMethodType,
   PaymentStatus,
   Region,
@@ -91,6 +93,30 @@ export const loadTypeOptions: SelectOption<LoadType>[] = [
   { label: "High Value", value: "high_value" },
   { label: "Pharmaceutical", value: "pharmaceutical" },
   { label: "Project Cargo", value: "project_cargo" },
+];
+
+export const materialTypeOptions: SelectOption<MaterialType>[] = [
+  { label: "General", value: "general" },
+  { label: "Hazmat", value: "hazmat" },
+  { label: "Refrigerated", value: "refrigerated" },
+  { label: "Liquid/Bulk", value: "liquid_bulk" },
+  { label: "Vehicles", value: "vehicles" },
+  { label: "Machinery/Equipment", value: "machinery_equipment" },
+  { label: "Building Materials", value: "building_materials" },
+  { label: "Agricultural", value: "agricultural" },
+  { label: "Other", value: "other" },
+];
+
+export const packagingTypeOptions: SelectOption<PackagingType>[] = [
+  { label: "Pallets", value: "pallets" },
+  { label: "Boxes/Cartons", value: "boxes_cartons" },
+  { label: "Crates", value: "crates" },
+  { label: "Drums", value: "drums" },
+  { label: "Bags/Sacks", value: "bags_sacks" },
+  { label: "Rolls", value: "rolls" },
+  { label: "Bulk (loose)", value: "bulk_loose" },
+  { label: "Containers", value: "containers" },
+  { label: "Other", value: "other" },
 ];
 
 export const truckTypeOptions: SelectOption<TruckType>[] = [
