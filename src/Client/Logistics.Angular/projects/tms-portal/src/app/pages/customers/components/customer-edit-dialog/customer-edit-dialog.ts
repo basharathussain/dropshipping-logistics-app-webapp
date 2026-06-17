@@ -78,6 +78,10 @@ export class CustomerEditDialog {
       notes: new FormControl<string | null>(null),
       taxId: new FormControl<string | null>(null),
       isVatExempt: new FormControl<boolean>(false, { nonNullable: true }),
+      website: new FormControl<string | null>(null),
+      contactPerson: new FormControl<string | null>(null),
+      mcNumber: new FormControl<string | null>(null),
+      dotNumber: new FormControl<string | null>(null),
     });
 
     effect(() => {
@@ -108,6 +112,10 @@ export class CustomerEditDialog {
       notes: formValue.notes,
       taxId: formValue.taxId,
       isVatExempt: formValue.isVatExempt,
+      website: formValue.website,
+      contactPerson: formValue.contactPerson,
+      mcNumber: formValue.mcNumber,
+      dotNumber: formValue.dotNumber,
     };
 
     this.isLoading.set(true);
@@ -143,6 +151,10 @@ export class CustomerEditDialog {
       notes: cust.notes ?? null,
       taxId: cust.taxId ?? null,
       isVatExempt: cust.isVatExempt ?? false,
+      website: cust.website ?? null,
+      contactPerson: cust.contactPerson ?? null,
+      mcNumber: cust.mcNumber ?? null,
+      dotNumber: cust.dotNumber ?? null,
     });
   }
 }
@@ -156,4 +168,8 @@ interface UpdateCustomerForm {
   notes: FormControl<string | null>;
   taxId: FormControl<string | null>;
   isVatExempt: FormControl<boolean>;
+  website: FormControl<string | null>;
+  contactPerson: FormControl<string | null>;
+  mcNumber: FormControl<string | null>;
+  dotNumber: FormControl<string | null>;
 }

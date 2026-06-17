@@ -32,6 +32,10 @@ export interface CustomerFormValue {
   notes: string | null;
   taxId: string | null;
   isVatExempt: boolean;
+  website: string | null;
+  contactPerson: string | null;
+  mcNumber: string | null;
+  dotNumber: string | null;
 }
 
 @Component({
@@ -83,6 +87,10 @@ export class CustomerForm {
     notes: new FormControl<string | null>(null),
     taxId: new FormControl<string | null>(null),
     isVatExempt: new FormControl<boolean>(false, { nonNullable: true }),
+    website: new FormControl<string | null>(null),
+    contactPerson: new FormControl<string | null>(null),
+    mcNumber: new FormControl<string | null>(null),
+    dotNumber: new FormControl<string | null>(null),
   });
 
   /** True when the customer's billing country is an EU member — drives the
@@ -127,6 +135,10 @@ export class CustomerForm {
         notes: formValue.notes,
         taxId: formValue.taxId,
         isVatExempt: formValue.isVatExempt,
+        website: formValue.website,
+        contactPerson: formValue.contactPerson,
+        mcNumber: formValue.mcNumber,
+        dotNumber: formValue.dotNumber,
       };
 
       const result = await this.api.invoke(createCustomer, { body: command });
@@ -145,6 +157,10 @@ export class CustomerForm {
         notes: formValue.notes,
         taxId: formValue.taxId,
         isVatExempt: formValue.isVatExempt,
+        website: formValue.website,
+        contactPerson: formValue.contactPerson,
+        mcNumber: formValue.mcNumber,
+        dotNumber: formValue.dotNumber,
       };
       await this.api.invoke(updateCustomer, { id: this.id()!, body: command });
       this.toastService.showSuccess("Customer data has been updated successfully");

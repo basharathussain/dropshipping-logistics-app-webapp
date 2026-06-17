@@ -16873,6 +16873,22 @@
           },
           "isVatExempt": {
             "type": "boolean"
+          },
+          "website": {
+            "type": "string",
+            "nullable": true
+          },
+          "contactPerson": {
+            "type": "string",
+            "nullable": true
+          },
+          "mcNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "dotNumber": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -17944,6 +17960,22 @@
           },
           "isVatExempt": {
             "type": "boolean"
+          },
+          "website": {
+            "type": "string",
+            "nullable": true
+          },
+          "contactPerson": {
+            "type": "string",
+            "nullable": true
+          },
+          "mcNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "dotNumber": {
+            "type": "string",
+            "nullable": true
           },
           "createdAt": {
             "type": "string",
@@ -25701,6 +25733,22 @@
           },
           "isVatExempt": {
             "type": "boolean"
+          },
+          "website": {
+            "type": "string",
+            "nullable": true
+          },
+          "contactPerson": {
+            "type": "string",
+            "nullable": true
+          },
+          "mcNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "dotNumber": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

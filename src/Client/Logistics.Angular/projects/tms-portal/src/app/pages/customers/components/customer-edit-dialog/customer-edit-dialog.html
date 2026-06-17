@@ -45,6 +45,29 @@
       </ui-grid>
     </ui-grid>
 
+    <ui-grid container spacing="4">
+      <ui-grid [size]="{ xs: 12, md: 6 }">
+        <ui-form-field label="Website" for="website">
+          <input pInputText formControlName="website" id="website" class="w-full" placeholder="https://example.com" />
+        </ui-form-field>
+      </ui-grid>
+      <ui-grid [size]="{ xs: 12, md: 6 }">
+        <ui-form-field label="Contact Person" for="contactPerson">
+          <input pInputText formControlName="contactPerson" id="contactPerson" class="w-full" />
+        </ui-form-field>
+      </ui-grid>
+      <ui-grid [size]="{ xs: 12, md: 6 }">
+        <ui-form-field label="MC #" for="mcNumber">
+          <input pInputText formControlName="mcNumber" id="mcNumber" class="w-full" />
+        </ui-form-field>
+      </ui-grid>
+      <ui-grid [size]="{ xs: 12, md: 6 }">
+        <ui-form-field label="US DOT #" for="dotNumber">
+          <input pInputText formControlName="dotNumber" id="dotNumber" class="w-full" />
+        </ui-form-field>
+      </ui-grid>
+    </ui-grid>
+
     <ui-form-field label="Status" for="status" class="mt-4">
       <p-select
         formControlName="status"

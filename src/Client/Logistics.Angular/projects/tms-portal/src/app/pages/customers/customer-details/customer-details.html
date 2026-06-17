@@ -121,6 +121,40 @@
                   <p-divider />
 
                   <ui-stack direction="row" align="center" justify="between">
+                    <ui-typography variant="body" color="muted">Website</ui-typography>
+                    @if (customer.website) {
+                      <a [href]="customer.website" target="_blank" rel="noopener" class="text-accent font-medium hover:underline">
+                        {{ customer.website }}
+                      </a>
+                    } @else {
+                      <ui-typography variant="body" color="muted">Not provided</ui-typography>
+                    }
+                  </ui-stack>
+
+                  <p-divider />
+
+                  <ui-stack direction="row" align="center" justify="between">
+                    <ui-typography variant="body" color="muted">Contact Person</ui-typography>
+                    <ui-typography variant="body" weight="medium">{{ customer.contactPerson || "Not provided" }}</ui-typography>
+                  </ui-stack>
+
+                  <p-divider />
+
+                  <ui-stack direction="row" align="center" justify="between">
+                    <ui-typography variant="body" color="muted">MC #</ui-typography>
+                    <ui-typography variant="body" weight="medium">{{ customer.mcNumber || "Not provided" }}</ui-typography>
+                  </ui-stack>
+
+                  <p-divider />
+
+                  <ui-stack direction="row" align="center" justify="between">
+                    <ui-typography variant="body" color="muted">US DOT #</ui-typography>
+                    <ui-typography variant="body" weight="medium">{{ customer.dotNumber || "Not provided" }}</ui-typography>
+                  </ui-stack>
+
+                  <p-divider />
+
+                  <ui-stack direction="row" align="center" justify="between">
                     <ui-typography variant="body" color="muted">Created Date</ui-typography>
                     <ui-typography variant="body" weight="medium">
                       {{ customer.createdAt | date: "mediumDate" }}
