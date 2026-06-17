@@ -1732,6 +1732,23 @@ namespace Logistics.Infrastructure.Persistence.Migrations.Tenant
                         .HasColumnType("character varying(16)")
                         .HasColumnName("un_number");
 
+                    b.Property<decimal?>("RatePerMile")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("rate_per_mile");
+
+                    b.Property<double?>("EstimatedWeight")
+                        .HasColumnType("double precision")
+                        .HasColumnName("estimated_weight");
+
+                    b.Property<string>("MaterialType")
+                        .HasColumnType("text")
+                        .HasColumnName("material_type");
+
+                    b.Property<string>("Packaging")
+                        .HasColumnType("text")
+                        .HasColumnName("packaging");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("LastModifiedAt");

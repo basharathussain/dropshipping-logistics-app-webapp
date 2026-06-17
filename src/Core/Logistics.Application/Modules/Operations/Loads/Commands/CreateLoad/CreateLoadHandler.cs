@@ -31,7 +31,11 @@ internal sealed class CreateLoadHandler(ILoadService loadService)
                 DestinationTerminalId: req.DestinationTerminalId,
                 IsHazmat: req.IsHazmat,
                 HazmatClass: req.HazmatClass,
-                UnNumber: req.UnNumber);
+                UnNumber: req.UnNumber,
+                RatePerMile: req.RatePerMile,
+                EstimatedWeight: req.EstimatedWeight,
+                MaterialType: req.MaterialType,
+                Packaging: req.Packaging);
 
             // Load.Create() raises domain events for notifications:
             // - NewLoadCreatedEvent (always)

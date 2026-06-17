@@ -29,4 +29,9 @@ public class CreateLoadCommand : ICommand
     public bool IsHazmat { get; set; }
     public HazmatClass? HazmatClass { get; set; }
     public string? UnNumber { get; set; }
+
+    public decimal? RatePerMile { get; set; }
+    public double? EstimatedWeight { get; set; }
+    public MaterialType? MaterialType { get; set; }
+    public PackagingType? Packaging { get; set; }
 }

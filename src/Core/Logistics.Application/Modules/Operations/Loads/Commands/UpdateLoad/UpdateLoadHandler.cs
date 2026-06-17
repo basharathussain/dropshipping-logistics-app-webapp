@@ -50,6 +50,10 @@ internal sealed class UpdateLoadHandler(ITenantUnitOfWork tenantUow)
             if (req.IsHazmat.HasValue) load.IsHazmat = req.IsHazmat.Value;
             if (req.HazmatClass.HasValue) load.HazmatClass = req.HazmatClass;
             if (req.UnNumber is not null) load.UnNumber = req.UnNumber;
+            if (req.RatePerMile.HasValue) load.RatePerMile = req.RatePerMile;
+            if (req.EstimatedWeight.HasValue) load.EstimatedWeight = req.EstimatedWeight;
+            if (req.MaterialType.HasValue) load.MaterialType = req.MaterialType;
+            if (req.Packaging.HasValue) load.Packaging = req.Packaging;
 
             if (req.Status.HasValue)
             {

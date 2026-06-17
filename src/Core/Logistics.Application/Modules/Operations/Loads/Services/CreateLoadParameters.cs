@@ -43,5 +43,9 @@ public record CreateLoadParameters(
     Guid? DestinationTerminalId = null,
     bool IsHazmat = false,
     HazmatClass? HazmatClass = null,
-    string? UnNumber = null
+    string? UnNumber = null,
+    decimal? RatePerMile = null,
+    double? EstimatedWeight = null,
+    MaterialType? MaterialType = null,
+    PackagingType? Packaging = null
 );

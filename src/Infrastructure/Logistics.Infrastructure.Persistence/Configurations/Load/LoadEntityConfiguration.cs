@@ -45,6 +45,9 @@ internal sealed class LoadEntityConfiguration : IEntityTypeConfiguration<Load>
         builder.Property(i => i.UnNumber)
             .HasMaxLength(16);
 
+        builder.Property(i => i.RatePerMile)
+            .HasPrecision(18, 2);
+
         builder.HasOne(i => i.Container)
             .WithMany()
             .HasForeignKey(i => i.ContainerId)

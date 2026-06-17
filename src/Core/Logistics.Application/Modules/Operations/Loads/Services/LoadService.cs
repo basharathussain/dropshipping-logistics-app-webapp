@@ -111,6 +111,10 @@ internal sealed class LoadService(ITenantUnitOfWork tenantUow) : ILoadService
             load.IsHazmat = p.IsHazmat;
             load.HazmatClass = p.HazmatClass;
             load.UnNumber = p.UnNumber;
+            load.RatePerMile = p.RatePerMile;
+            load.EstimatedWeight = p.EstimatedWeight;
+            load.MaterialType = p.MaterialType;
+            load.Packaging = p.Packaging;
             loads.Add(load);
         }
 

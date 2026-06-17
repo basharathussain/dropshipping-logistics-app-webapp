@@ -105,6 +105,22 @@ public partial class Load : AuditableEntity, ITenantEntity
     public string? UnNumber { get; set; }
 
     /// <summary>
+    /// Booked rate per mile (in <see cref="DeliveryCost"/>'s currency). Snapshot of the agreed rate at
+    /// booking time for historical rate analysis; derivable as DeliveryCost / miles but stored so it
+    /// survives later distance recomputation.
+    /// </summary>
+    public decimal? RatePerMile { get; set; }
+
+    /// <summary>Estimated commodity weight in pounds (lbs).</summary>
+    public double? EstimatedWeight { get; set; }
+
+    /// <summary>The general nature of the commodity.</summary>
+    public MaterialType? MaterialType { get; set; }
+
+    /// <summary>How the commodity is packaged.</summary>
+    public PackagingType? Packaging { get; set; }
+
+    /// <summary>
     /// Optional intermodal container being moved by this load.
     /// </summary>
     public Guid? ContainerId { get; set; }
