@@ -24,6 +24,8 @@ public static class TenantMapper
             StripeCustomerId = entity.StripeCustomerId,
             LogoUrl = entity.LogoPath,
             PhoneNumber = entity.PhoneNumber,
+            Website = entity.Website,
+            ContactPerson = entity.ContactPerson,
             Subscription = entity.Subscription?.ToDto(),
             TruckCount = truckCount,
             IsSubscriptionRequired = entity.IsSubscriptionRequired,

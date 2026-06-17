@@ -34,6 +34,8 @@ internal sealed class UpdateTenantHandler(
         tenant.TaxResidencyCountry = PropertyUpdater.UpdateIfChanged(
             req.TaxResidencyCountry, tenant.TaxResidencyCountry);
         tenant.PhoneNumber = PropertyUpdater.UpdateIfChanged(req.PhoneNumber, tenant.PhoneNumber);
+        tenant.Website = PropertyUpdater.UpdateIfChanged(req.Website, tenant.Website);
+        tenant.ContactPerson = PropertyUpdater.UpdateIfChanged(req.ContactPerson, tenant.ContactPerson);
         tenant.Settings = PropertyUpdater.UpdateIfChanged(req.Settings, tenant.Settings);
 
         if (!string.IsNullOrEmpty(tenant.StripeCustomerId))

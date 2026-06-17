@@ -42,6 +42,7 @@ internal sealed class UpdateTruckHandler(ITenantUnitOfWork tenantUow) : IAppRequ
         truck.Type = PropertyUpdater.UpdateIfChanged(req.TruckType, truck.Type);
         truck.Status = PropertyUpdater.UpdateIfChanged(req.TruckStatus, truck.Status);
         truck.VehicleCapacity = PropertyUpdater.UpdateIfChanged(req.VehicleCapacity, truck.VehicleCapacity);
+        if (req.Length.HasValue) truck.Length = req.Length;
         truck.Make = PropertyUpdater.UpdateIfChanged(req.Make, truck.Make);
         truck.Model = PropertyUpdater.UpdateIfChanged(req.Model, truck.Model);
 

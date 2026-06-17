@@ -13,6 +13,7 @@ public class UpdateTruckCommand : ICommand
     public Guid? MainDriverId { get; set; }
     public Guid? SecondaryDriverId { get; set; }
     public int? VehicleCapacity { get; set; }
+    public double? Length { get; set; }
     public string? Make { get; set; }
     public string? Model { get; set; }
     public int? Year { get; set; }

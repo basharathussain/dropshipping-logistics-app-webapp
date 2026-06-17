@@ -9,6 +9,7 @@ public class CreateTruckCommand : ICommand
     public TruckType TruckType { get; set; }
     public Guid MainDriverId { get; set; }
     public int? VehicleCapacity { get; set; }
+    public double? Length { get; set; }
     public string? Make { get; set; }
     public string? Model { get; set; }
     public int? Year { get; set; }

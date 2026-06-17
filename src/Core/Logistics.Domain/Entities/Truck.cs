@@ -15,6 +15,9 @@ public class Truck : Entity, ITenantEntity
     /// </summary>
     public int VehicleCapacity { get; set; }
 
+    /// <summary>Overall truck length in feet.</summary>
+    public double? Length { get; set; }
+
     public TruckStatus Status { get; set; } = TruckStatus.Available;
 
     /// <summary>

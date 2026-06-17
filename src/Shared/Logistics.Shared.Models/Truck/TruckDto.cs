@@ -8,6 +8,7 @@ public record TruckDto
     public Guid? Id { get; set; }
     public string? Number { get; set; }
     public int VehicleCapacity { get; set; }
+    public double? Length { get; set; }
     public TruckType Type { get; set; }
     public TruckStatus Status { get; set; }
     public string? Make { get; set; }

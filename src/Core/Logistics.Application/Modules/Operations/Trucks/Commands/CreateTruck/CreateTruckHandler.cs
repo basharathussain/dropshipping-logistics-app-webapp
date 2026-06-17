@@ -44,6 +44,7 @@ internal sealed class CreateTruckHandler(ITenantUnitOfWork tenantUow) : IAppRequ
             truckEntity.VehicleCapacity = req.VehicleCapacity.Value;
         }
 
+        truckEntity.Length = req.Length;
         truckEntity.Make = req.Make;
         truckEntity.Model = req.Model;
         truckEntity.Year = req.Year;

@@ -24,6 +24,12 @@ public class Tenant : Entity, IMasterEntity
     public string? LogoPath { get; set; }
     public string? PhoneNumber { get; set; }
 
+    /// <summary>Company website URL.</summary>
+    public string? Website { get; set; }
+
+    /// <summary>Primary contact person name.</summary>
+    public string? ContactPerson { get; set; }
+
     #region Regulatory & tax IDs
 
     /// <summary>

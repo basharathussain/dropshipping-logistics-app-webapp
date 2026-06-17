@@ -4448,6 +4448,10 @@ namespace Logistics.Infrastructure.Persistence.Migrations.Tenant
                         .HasColumnType("integer")
                         .HasColumnName("vehicle_capacity");
 
+                    b.Property<double?>("Length")
+                        .HasColumnType("double precision")
+                        .HasColumnName("length");
+
                     b.Property<string>("Vin")
                         .HasColumnType("text")
                         .HasColumnName("vin");

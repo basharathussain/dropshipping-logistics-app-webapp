@@ -16,6 +16,8 @@ public class UpdateTenantCommand : ICommand
     public string? CompanyRegistrationNumber { get; set; }
     public string? TaxResidencyCountry { get; set; }
     public string? PhoneNumber { get; set; }
+    public string? Website { get; set; }
+    public string? ContactPerson { get; set; }
     public Address? CompanyAddress { get; set; }
     public string? ConnectionString { get; set; }
     public TenantSettings? Settings { get; set; }

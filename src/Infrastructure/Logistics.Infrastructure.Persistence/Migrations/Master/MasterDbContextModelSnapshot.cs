@@ -1374,6 +1374,14 @@ namespace Logistics.Infrastructure.Persistence.Migrations.Master
                         .HasColumnType("text")
                         .HasColumnName("phone_number");
 
+                    b.Property<string>("Website")
+                        .HasColumnType("text")
+                        .HasColumnName("website");
+
+                    b.Property<string>("ContactPerson")
+                        .HasColumnType("text")
+                        .HasColumnName("contact_person");
+
                     b.Property<DateTime?>("QuotaResetAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("quota_reset_at");
