@@ -17812,6 +17812,11 @@
             "format": "int32",
             "nullable": true
           },
+          "length": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
           "make": {
             "type": "string",
             "nullable": true
@@ -24377,6 +24382,14 @@
             "type": "string",
             "nullable": true
           },
+          "website": {
+            "type": "string",
+            "nullable": true
+          },
+          "contactPerson": {
+            "type": "string",
+            "nullable": true
+          },
           "connectionString": {
             "type": "string",
             "nullable": true
@@ -25182,6 +25195,11 @@
           "vehicleCapacity": {
             "type": "integer",
             "format": "int32"
+          },
+          "length": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
           },
           "type": {
             "$ref": "#/components/schemas/TruckType"
@@ -26306,6 +26324,14 @@
             "type": "string",
             "nullable": true
           },
+          "website": {
+            "type": "string",
+            "nullable": true
+          },
+          "contactPerson": {
+            "type": "string",
+            "nullable": true
+          },
           "companyAddress": {
             "$ref": "#/components/schemas/Address"
           },
@@ -26532,6 +26558,11 @@
           "vehicleCapacity": {
             "type": "integer",
             "format": "int32",
+            "nullable": true
+          },
+          "length": {
+            "type": "number",
+            "format": "double",
             "nullable": true
           },
           "make": {

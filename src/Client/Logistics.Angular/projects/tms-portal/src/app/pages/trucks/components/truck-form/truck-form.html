@@ -46,6 +46,11 @@
             </ui-form-field>
           }
 
+
+          <ui-form-field label="Truck Length" for="length" hint="Overall length in feet">
+            <p-inputNumber formControlName="length" inputId="length" [min]="0" suffix=" ft" />
+          </ui-form-field>
+
           @if (isCarHauler()) {
             <ui-form-field
               label="Vehicle Capacity"

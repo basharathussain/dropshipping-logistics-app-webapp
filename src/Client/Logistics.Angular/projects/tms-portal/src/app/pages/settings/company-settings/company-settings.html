@@ -70,6 +70,20 @@
               <ui-phone-field formControlName="phoneNumber" />
             </ui-form-field>
 
+            <ui-form-field label="Website" for="website">
+              <input
+                pInputText
+                formControlName="website"
+                id="website"
+                class="w-full"
+                placeholder="https://example.com"
+              />
+            </ui-form-field>
+
+            <ui-form-field label="Contact Person" for="contactPerson">
+              <input pInputText formControlName="contactPerson" id="contactPerson" class="w-full" />
+            </ui-form-field>
+
             <ui-form-field label="Billing Email" for="billingEmail" [required]="true" class="mb-0">
               <input
                 pInputText

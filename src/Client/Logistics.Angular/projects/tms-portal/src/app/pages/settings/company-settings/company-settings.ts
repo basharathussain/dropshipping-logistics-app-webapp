@@ -98,6 +98,8 @@ export class CompanySettingsComponent implements OnInit {
         nonNullable: true,
       }),
       phoneNumber: new FormControl<string | null>(null),
+      website: new FormControl<string | null>(null),
+      contactPerson: new FormControl<string | null>(null),
       billingEmail: new FormControl("", {
         validators: [Validators.required, Validators.email],
         nonNullable: true,
@@ -137,6 +139,8 @@ export class CompanySettingsComponent implements OnInit {
     const command: UpdateTenantCommand = {
       companyName: this.form.value.companyName,
       phoneNumber: this.form.value.phoneNumber,
+      website: this.form.value.website || null,
+      contactPerson: this.form.value.contactPerson || null,
       billingEmail: this.form.value.billingEmail,
       dotNumber: this.form.value.dotNumber,
       mcNumber: this.form.value.mcNumber || null,
@@ -240,6 +244,8 @@ export class CompanySettingsComponent implements OnInit {
         this.form.patchValue({
           companyName: tenant.companyName ?? "",
           phoneNumber: tenant.phoneNumber ?? null,
+          website: tenant.website ?? null,
+          contactPerson: tenant.contactPerson ?? null,
           billingEmail: tenant.billingEmail ?? "",
           dotNumber: tenant.dotNumber ?? "",
           mcNumber: tenant.mcNumber ?? "",
@@ -280,6 +286,8 @@ export class CompanySettingsComponent implements OnInit {
 interface CompanySettingsForm {
   companyName: FormControl<string>;
   phoneNumber: FormControl<string | null>;
+  website: FormControl<string | null>;
+  contactPerson: FormControl<string | null>;
   billingEmail: FormControl<string>;
   dotNumber: FormControl<string>;
   mcNumber: FormControl<string>;
