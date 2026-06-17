@@ -14,5 +14,9 @@ public class CustomerDto
     public string? Notes { get; set; }
     public string? TaxId { get; set; }
     public bool IsVatExempt { get; set; }
+    public string? Website { get; set; }
+    public string? ContactPerson { get; set; }
+    public string? McNumber { get; set; }
+    public string? DotNumber { get; set; }
     public DateTime CreatedAt { get; set; }
 }

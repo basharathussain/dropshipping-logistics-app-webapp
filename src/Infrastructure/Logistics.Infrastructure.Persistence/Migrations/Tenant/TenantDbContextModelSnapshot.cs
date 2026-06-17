@@ -440,6 +440,22 @@ namespace Logistics.Infrastructure.Persistence.Migrations.Tenant
                         .HasColumnType("boolean")
                         .HasColumnName("is_vat_exempt");
 
+                    b.Property<string>("Website")
+                        .HasColumnType("text")
+                        .HasColumnName("website");
+
+                    b.Property<string>("ContactPerson")
+                        .HasColumnType("text")
+                        .HasColumnName("contact_person");
+
+                    b.Property<string>("McNumber")
+                        .HasColumnType("text")
+                        .HasColumnName("mc_number");
+
+                    b.Property<string>("DotNumber")
+                        .HasColumnType("text")
+                        .HasColumnName("dot_number");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text")

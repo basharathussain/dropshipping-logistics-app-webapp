@@ -26,5 +26,17 @@ public class Customer : AuditableEntity, ITenantEntity
     /// </summary>
     public bool IsVatExempt { get; set; }
 
+    /// <summary>Customer company website URL.</summary>
+    public string? Website { get; set; }
+
+    /// <summary>Primary contact person at the customer.</summary>
+    public string? ContactPerson { get; set; }
+
+    /// <summary>US Motor Carrier number (FMCSA), if the customer is a carrier/broker.</summary>
+    public string? McNumber { get; set; }
+
+    /// <summary>US DOT number, if applicable.</summary>
+    public string? DotNumber { get; set; }
+
     public virtual List<LoadInvoice> Invoices { get; set; } = [];
 }

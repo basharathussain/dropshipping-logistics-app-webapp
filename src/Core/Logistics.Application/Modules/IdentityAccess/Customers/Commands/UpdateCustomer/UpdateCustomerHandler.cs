@@ -26,6 +26,10 @@ internal sealed class UpdateCustomerHandler(ITenantUnitOfWork tenantUow)
         customerEntity.Notes = PropertyUpdater.UpdateIfChanged(req.Notes, customerEntity.Notes);
         customerEntity.TaxId = PropertyUpdater.UpdateIfChanged(req.TaxId, customerEntity.TaxId);
         customerEntity.IsVatExempt = PropertyUpdater.UpdateIfChanged(req.IsVatExempt, customerEntity.IsVatExempt);
+        customerEntity.Website = PropertyUpdater.UpdateIfChanged(req.Website, customerEntity.Website);
+        customerEntity.ContactPerson = PropertyUpdater.UpdateIfChanged(req.ContactPerson, customerEntity.ContactPerson);
+        customerEntity.McNumber = PropertyUpdater.UpdateIfChanged(req.McNumber, customerEntity.McNumber);
+        customerEntity.DotNumber = PropertyUpdater.UpdateIfChanged(req.DotNumber, customerEntity.DotNumber);
         tenantUow.Repository<Customer>().Update(customerEntity);
         await tenantUow.SaveChangesAsync(ct);
         return Result.Ok();
