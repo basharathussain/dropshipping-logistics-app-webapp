@@ -54,6 +54,10 @@
             Phone
             <p-sortIcon field="Phone" />
           </th>
+          <th>Contact Person</th>
+          <th>MC #</th>
+          <th>DOT #</th>
+          <th>Website</th>
           <th pSortableColumn="CreatedDate">
             Created
             <p-sortIcon field="CreatedDate" />
@@ -78,6 +82,24 @@
           </td>
           <td>{{ customer.email || "-" }}</td>
           <td>{{ customer.phone || "-" }}</td>
+          <td>{{ customer.contactPerson || "-" }}</td>
+          <td>{{ customer.mcNumber || "-" }}</td>
+          <td>{{ customer.dotNumber || "-" }}</td>
+          <td>
+            @if (customer.website) {
+              <a
+                [href]="customer.website"
+                target="_blank"
+                rel="noopener"
+                class="text-accent hover:underline"
+                (click)="$event.stopPropagation()"
+              >
+                {{ customer.website }}
+              </a>
+            } @else {
+              -
+            }
+          </td>
           <td>{{ customer.createdAt | date: "mediumDate" }}</td>
           <td>
             <p-button
