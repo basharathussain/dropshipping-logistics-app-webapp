@@ -14,6 +14,7 @@ namespace Logistics.Infrastructure.Persistence.Data;
 public class TenantDbContext : DbContext
 {
     private readonly AuditableEntitySaveChangesInterceptor? auditableEntity;
+    private readonly LoadAuditSaveChangesInterceptor? loadAudit;
 
     // Default fallback connection string for local development and testing
     private readonly string defaultConnectionString;
@@ -25,10 +26,12 @@ public class TenantDbContext : DbContext
         TenantDbContextOptions? tenantDbContextOptions = null,
         DispatchDomainEventsInterceptor? dispatchDomain = null,
         AuditableEntitySaveChangesInterceptor? auditableEntity = null,
+        LoadAuditSaveChangesInterceptor? loadAudit = null,
         ILogger<TenantDbContext>? logger = null)
     {
         this.dispatchDomain = dispatchDomain;
         this.auditableEntity = auditableEntity;
+        this.loadAudit = loadAudit;
         this.logger = logger;
 
         defaultConnectionString = tenantDbContextOptions?.ConnectionString
@@ -57,6 +60,11 @@ public class TenantDbContext : DbContext
         if (auditableEntity is not null)
         {
             options.AddInterceptors(auditableEntity);
+        }
+
+        if (loadAudit is not null)
+        {
+            options.AddInterceptors(loadAudit);
         }
 
         if (!options.IsConfigured)

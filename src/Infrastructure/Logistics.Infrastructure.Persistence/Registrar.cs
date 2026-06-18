@@ -30,6 +30,7 @@ public static class Registrar
 
         services.AddScoped<DispatchDomainEventsInterceptor>();
         services.AddScoped<AuditableEntitySaveChangesInterceptor>();
+        services.AddScoped<LoadAuditSaveChangesInterceptor>();
 
         services.Configure<CustomerPortalOptions>(configuration.GetSection(CustomerPortalOptions.SectionName));
         services.Configure<IdentityServerOptions>(configuration.GetSection(IdentityServerOptions.SectionName));

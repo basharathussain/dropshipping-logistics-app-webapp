@@ -30,6 +30,16 @@ public class LoadController(IMediator mediator) : ControllerBase
         return result.IsSuccess ? Ok(result.Value) : NotFound(ErrorResponse.FromResult(result));
     }
 
+    [HttpGet("{id:guid}/audit", Name = "GetLoadAuditLogs")]
+    [ProducesResponseType(typeof(List<LoadAuditLogDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
+    [Authorize(Policy = Permission.Load.View)]
+    public async Task<IActionResult> GetAuditLogs(Guid id)
+    {
+        var result = await mediator.Send(new GetLoadAuditLogsQuery(id));
+        return result.IsSuccess ? Ok(result.Value) : BadRequest(ErrorResponse.FromResult(result));
+    }
+
     [HttpGet(Name = "GetLoads")]
     [ProducesResponseType(typeof(PagedResponse<LoadDto>), StatusCodes.Status200OK)]
     [Authorize(Policy = Permission.Load.View)]
