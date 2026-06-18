@@ -3,9 +3,11 @@ import { Component, computed, inject, input, signal, viewChild, type OnInit } fr
 import { Router, RouterModule } from "@angular/router";
 import {
   Api,
+  getLoadAuditLogs,
   getLoadById,
   type DocumentType,
   type GeoPoint,
+  type LoadAuditLogDto,
   type LoadDto,
   type LoadExceptionDto,
 } from "@logistics/shared/api";
@@ -74,6 +76,7 @@ export class LoadDetailPage implements OnInit {
   protected readonly id = input.required<string>();
   protected readonly isLoading = signal(false);
   protected readonly load = signal<LoadDto | null>(null);
+  protected readonly auditLogs = signal<LoadAuditLogDto[]>([]);
 
   /** Origin + destination waypoints for the route map (numbered 1, 2). */
   protected readonly routeWaypoints = computed<Waypoint[]>(() => {
@@ -148,7 +151,27 @@ export class LoadDetailPage implements OnInit {
     const result = await this.api.invoke(getLoadById, { id: this.id() });
     if (result) {
       this.load.set(result);
+      this.fetchAuditLogs();
     }
     this.isLoading.set(false);
+  }
+
+  private async fetchAuditLogs(): Promise<void> {
+    try {
+      const logs = await this.api.invoke(getLoadAuditLogs, { id: this.id() });
+      this.auditLogs.set(logs ?? []);
+    } catch {
+      this.auditLogs.set([]);
+    }
+  }
+
+  /** Humanize an audit field name, e.g. "DeliveryCost.Amount" -> "Delivery Cost". */
+  protected formatAuditField(field: string | null | undefined): string {
+    if (!field) return "";
+    const last = field.includes(".") ? field.split(".")[0] : field;
+    return last
+      .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+      .replace(/\bId\b/g, "")
+      .trim();
   }
 }

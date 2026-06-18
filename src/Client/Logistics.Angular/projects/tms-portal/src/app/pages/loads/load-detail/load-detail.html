@@ -332,6 +332,53 @@
               }
             </ui-grid>
           </p-card>
+
+          <!-- Audit Log Card -->
+          <p-card class="border-default mt-6 border">
+            <ng-template #header>
+              <div class="p-4 pb-0">
+                <ui-typography variant="h5" tag="h3" weight="semibold">Audit Log</ui-typography>
+              </div>
+            </ng-template>
+
+            @if (auditLogs().length === 0) {
+              <ui-typography variant="body" color="muted">No history yet.</ui-typography>
+            } @else {
+              <ui-stack gap="4">
+                @for (entry of auditLogs(); track entry.id) {
+                  <ui-surface variant="subtle" [border]="true">
+                    <ui-stack direction="row" align="center" gap="2" class="mb-2">
+                      <span
+                        class="text-xs font-semibold uppercase"
+                        [class.text-success]="entry.action === 'Created'"
+                        [class.text-primary]="entry.action !== 'Created'"
+                      >
+                        {{ entry.action }}
+                      </span>
+                      <span class="font-medium">{{
+                        entry.changedByName || entry.changedBy || "System"
+                      }}</span>
+                      <span class="text-muted text-sm">{{
+                        entry.changedAt | dateFormat: "medium"
+                      }}</span>
+                    </ui-stack>
+                    @if (entry.changes?.length) {
+                      <ul class="m-0 list-disc pl-5 text-sm">
+                        @for (chg of entry.changes; track chg.field) {
+                          <li>
+                            <span class="font-medium">{{ formatAuditField(chg.field) }}</span>:
+                            <span class="text-muted">{{ chg.oldValue ?? "—" }}</span>
+                            <span class="mx-1">→</span>
+                            <span>{{ chg.newValue ?? "—" }}</span>
+                          </li>
+                        }
+                      </ul>
+                    }
+                  </ui-surface>
+                }
+              </ui-stack>
+            }
+          </p-card>
         </p-tabpanel>
 
         <!-- Documents Tab -->
