@@ -34,4 +34,5 @@ public class CreateLoadCommand : ICommand
     public double? EstimatedWeight { get; set; }
     public MaterialType? MaterialType { get; set; }
     public PackagingType? Packaging { get; set; }
+    public double? Deadhead { get; set; }
 }

@@ -54,6 +54,7 @@ internal sealed class UpdateLoadHandler(ITenantUnitOfWork tenantUow)
             if (req.EstimatedWeight.HasValue) load.EstimatedWeight = req.EstimatedWeight;
             if (req.MaterialType.HasValue) load.MaterialType = req.MaterialType;
             if (req.Packaging.HasValue) load.Packaging = req.Packaging;
+            if (req.Deadhead.HasValue) load.Deadhead = req.Deadhead;
 
             if (req.Status.HasValue)
             {

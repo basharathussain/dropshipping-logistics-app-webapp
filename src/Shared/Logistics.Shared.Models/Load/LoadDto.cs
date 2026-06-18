@@ -35,6 +35,7 @@ public class LoadDto
     public double? EstimatedWeight { get; set; }
     public MaterialType? MaterialType { get; set; }
     public PackagingType? Packaging { get; set; }
+    public double? Deadhead { get; set; }
     public Guid? ContainerId { get; set; }
     public string? ContainerNumber { get; set; }
     public ContainerIsoType? ContainerIsoType { get; set; }

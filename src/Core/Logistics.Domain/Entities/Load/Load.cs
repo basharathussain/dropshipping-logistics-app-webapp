@@ -111,6 +111,11 @@ public partial class Load : AuditableEntity, ITenantEntity
     /// </summary>
     public decimal? RatePerMile { get; set; }
 
+    /// <summary>
+    /// Deadhead distance (empty miles to the pickup), stored in the same unit as <see cref="Distance"/>.
+    /// </summary>
+    public double? Deadhead { get; set; }
+
     /// <summary>Estimated commodity weight in pounds (lbs).</summary>
     public double? EstimatedWeight { get; set; }
 

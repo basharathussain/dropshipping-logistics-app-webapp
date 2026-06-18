@@ -35,7 +35,8 @@ internal sealed class CreateLoadHandler(ILoadService loadService)
                 RatePerMile: req.RatePerMile,
                 EstimatedWeight: req.EstimatedWeight,
                 MaterialType: req.MaterialType,
-                Packaging: req.Packaging);
+                Packaging: req.Packaging,
+                Deadhead: req.Deadhead);
 
             // Load.Create() raises domain events for notifications:
             // - NewLoadCreatedEvent (always)

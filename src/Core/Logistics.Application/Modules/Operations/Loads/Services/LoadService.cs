@@ -115,6 +115,7 @@ internal sealed class LoadService(ITenantUnitOfWork tenantUow) : ILoadService
             load.EstimatedWeight = p.EstimatedWeight;
             load.MaterialType = p.MaterialType;
             load.Packaging = p.Packaging;
+            load.Deadhead = p.Deadhead;
             loads.Add(load);
         }
 

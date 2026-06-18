@@ -40,6 +40,7 @@ public static partial class LoadMapper
             EstimatedWeight = entity.EstimatedWeight,
             MaterialType = entity.MaterialType,
             Packaging = entity.Packaging,
+            Deadhead = entity.Deadhead,
             ContainerId = entity.ContainerId,
             ContainerNumber = entity.Container?.Number,
             ContainerIsoType = entity.Container?.IsoType,

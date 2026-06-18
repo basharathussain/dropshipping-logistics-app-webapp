@@ -47,5 +47,6 @@ public record CreateLoadParameters(
     decimal? RatePerMile = null,
     double? EstimatedWeight = null,
     MaterialType? MaterialType = null,
-    PackagingType? Packaging = null
+    PackagingType? Packaging = null,
+    double? Deadhead = null
 );

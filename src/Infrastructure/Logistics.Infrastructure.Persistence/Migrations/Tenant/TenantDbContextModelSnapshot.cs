@@ -1753,6 +1753,10 @@ namespace Logistics.Infrastructure.Persistence.Migrations.Tenant
                         .HasColumnType("numeric(18,2)")
                         .HasColumnName("rate_per_mile");
 
+                    b.Property<double?>("Deadhead")
+                        .HasColumnType("double precision")
+                        .HasColumnName("deadhead");
+
                     b.Property<double?>("EstimatedWeight")
                         .HasColumnType("double precision")
                         .HasColumnName("estimated_weight");
