@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
 
 namespace Logistics.Infrastructure.Persistence.Data;
@@ -44,6 +45,10 @@ public class MasterDbContext : IdentityDbContext<
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
+        // Hand-written migrations are applied by the DbMigrator and the model snapshot isn't
+        // always regenerated, so don't fail Migrate() on snapshot drift.
+        options.ConfigureWarnings(w => w.Ignore(RelationalEventId.PendingModelChangesWarning));
+
         if (dispatchDomain is not null)
         {
             options.AddInterceptors(dispatchDomain);
