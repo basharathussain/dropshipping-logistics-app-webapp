@@ -44,6 +44,7 @@ export class LoadAddComponent {
       hazmatClass: formValue.hazmatClass ?? undefined,
       unNumber: formValue.unNumber ?? null,
       ratePerMile: formValue.ratePerMile ?? null,
+      deadhead: formValue.deadhead ?? null,
       estimatedWeight: formValue.estimatedWeight ?? null,
       materialType: formValue.materialType ?? undefined,
       packaging: formValue.packaging ?? undefined,

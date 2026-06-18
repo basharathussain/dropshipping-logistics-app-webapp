@@ -229,10 +229,17 @@
               </p-inputgroup>
             </ui-form-field>
 
-            <ui-form-field label="Estimated Distance" for="distance" class="mb-0">
+            <ui-form-field label="Estimated Distance" for="distance">
               <p-inputgroup>
                 <p-inputgroup-addon>mi</p-inputgroup-addon>
                 <p-input-number id="distance" formControlName="distance" [min]="0" />
+              </p-inputgroup>
+            </ui-form-field>
+
+            <ui-form-field label="Deadhead" for="deadhead" hint="Empty miles to pickup" class="mb-0">
+              <p-inputgroup>
+                <p-inputgroup-addon>mi</p-inputgroup-addon>
+                <p-input-number id="deadhead" formControlName="deadhead" [min]="0" />
               </p-inputgroup>
             </ui-form-field>
           </ui-surface>

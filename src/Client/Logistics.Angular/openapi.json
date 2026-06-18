@@ -17294,6 +17294,11 @@
           },
           "packaging": {
             "$ref": "#/components/schemas/PackagingType"
+          },
+          "deadhead": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -21311,6 +21316,11 @@
           },
           "packaging": {
             "$ref": "#/components/schemas/PackagingType"
+          },
+          "deadhead": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
           },
           "containerId": {
             "type": "string",
@@ -26124,6 +26134,11 @@
           },
           "packaging": {
             "$ref": "#/components/schemas/PackagingType"
+          },
+          "deadhead": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
           }
         },
         "additionalProperties": false

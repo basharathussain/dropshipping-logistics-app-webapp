@@ -110,12 +110,34 @@
                     </ui-typography>
                   </ui-stack>
 
+                  <ui-stack direction="row" align="center" justify="between">
+                    <span>Rate per Mile</span>
+                    <span>
+                      @if (load()!.ratePerMile != null) {
+                        {{ load()!.ratePerMile | currencyFormat }} / mi
+                      } @else {
+                        -
+                      }
+                    </span>
+                  </ui-stack>
+
                   @if (load()!.distance) {
                     <ui-stack direction="row" align="center" justify="between">
                       <span>Distance</span>
                       <span>{{ load()!.distance | distanceUnit }}</span>
                     </ui-stack>
                   }
+
+                  <ui-stack direction="row" align="center" justify="between">
+                    <span>Deadhead</span>
+                    <span>
+                      @if (load()!.deadhead != null) {
+                        {{ load()!.deadhead | distanceUnit }}
+                      } @else {
+                        -
+                      }
+                    </span>
+                  </ui-stack>
 
                   <p-divider />
 

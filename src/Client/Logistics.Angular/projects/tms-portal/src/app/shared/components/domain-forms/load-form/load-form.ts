@@ -111,6 +111,7 @@ export interface LoadFormValue {
   unNumber?: string | null;
   // Rate + commodities
   ratePerMile?: number | null;
+  deadhead?: number | null; // miles
   estimatedWeight?: number | null;
   materialType?: MaterialType | null;
   packaging?: PackagingType | null;
@@ -230,6 +231,7 @@ export class LoadForm implements OnInit {
     }),
     // Rate per mile (two-way with deliveryCost via distance) + commodities
     ratePerMile: new FormControl<number | null>(null),
+    deadhead: new FormControl<number | null>(null),
     estimatedWeight: new FormControl<number | null>(null),
     materialType: new FormControl<MaterialType | null>(null),
     packaging: new FormControl<PackagingType | null>(null),
@@ -348,6 +350,7 @@ export class LoadForm implements OnInit {
     const formValue: LoadFormValue = {
       ...raw,
       distance: Converters.toMeters(raw.distance, "mi"),
+      deadhead: raw.deadhead != null ? Converters.toMeters(raw.deadhead, "mi") : null,
       assignedTruckId: truck?.id ?? null,
       requestedPickupDate: raw.requestedPickupDate
         ? new Date(raw.requestedPickupDate).toISOString()
